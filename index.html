@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulador Agiliza + Promotora</title>
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+  <div class="headerInner">
+    <img src="img/logo.svg" alt="Logo Agiliza + Promotora" class="logo">
+    <h1>Simulador Agiliza + Promotora</h1>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- Dados do Cliente -->
+  <section class="card">
+    <h2 class="title"><span class="badge">0</span> Dados do Cliente</h2>
+    <div class="row">
+      <div class="col">
+        <label for="cli_nome">Nome</label>
+        <input id="cli_nome" type="text" placeholder="Ex.: Maria Silva">
+      </div>
+      <div class="col">
+        <label for="cli_cpf">CPF</label>
+        <input id="cli_cpf" type="text" inputmode="numeric" placeholder="000.000.000-00" maxlength="14">
+      </div>
+    </div>
+    <div class="btns"><button class="secondary" id="btn_limpar_cliente">Limpar Cliente</button></div>
+  </section>
+
+  <!-- Margem Nova (35%) -->
+  <section class="card" id="nova">
+    <div class="title"><h2><span class="badge">1</span> 35% – Margem Nova (Empréstimo)</h2><span class="pct">35%</span></div>
+    <div class="row">
+      <div class="col">
+        <label for="prazo_nova">Prazo (meses)</label>
+        <select id="prazo_nova">
+          <option value="96" selected>96</option>
+          <option value="84">84</option>
+          <option value="72">72</option>
+          <option value="60">60</option>
+          <option value="48">48</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="coef_nova">Coeficiente</label>
+        <input id="coef_nova" type="text" inputmode="decimal" placeholder="0,023701">
+      </div>
+    </div>
+    <div class="split"></div>
+    <div class="row">
+      <div class="col">
+        <label for="parcela_nova">Parcela (R$)</label>
+        <input id="parcela_nova" type="text" inputmode="decimal" placeholder="Ex.: 350,00">
+      </div>
+      <div class="col">
+        <label for="liberado_nova">Valor Liberado (R$)</label>
+        <input id="liberado_nova" type="text" inputmode="decimal" placeholder="Ex.: 10.000,00">
+      </div>
+    </div>
+    <div class="btns">
+      <button class="action" id="btn_calc_liberado_nova">Calcular Liberado</button>
+      <button class="action" id="btn_calc_parcela_nova">Calcular Parcela</button>
+      <button class="secondary" id="btn_limpar_nova">Limpar</button>
+    </div>
+    <div class="result" id="res_nova" style="display:none">
+      <span class="small">Liberado (35%)</span><b id="out_nova">R$ 0,00</b>
+    </div>
+  </section>
+
+  <!-- Cartão RMC (5%) -->
+  <section class="card" id="rmc">
+    <div class="title"><h2><span class="badge">2</span> 5% – Cartão RMC (Saque)</h2><span class="pct">5%</span></div>
+    <div class="row">
+      <div class="col">
+        <label for="coef_rmc">Coeficiente</label>
+        <input id="coef_rmc" type="text" inputmode="decimal" value="0,029809">
+      </div>
+    </div>
+    <div class="split"></div>
+    <div class="row">
+      <div class="col">
+        <label for="parcela_rmc">Parcela (R$)</label>
+        <input id="parcela_rmc" type="text" inputmode="decimal" placeholder="Ex.: 100,00">
+      </div>
+      <div class="col">
+        <label for="liberado_rmc">Valor Liberado (R$)</label>
+        <input id="liberado_rmc" type="text" inputmode="decimal" placeholder="Ex.: 3.500,00">
+      </div>
+    </div>
+    <div class="btns">
+      <button class="action" id="btn_calc_liberado_rmc">Calcular Liberado</button>
+      <button class="action" id="btn_calc_parcela_rmc">Calcular Parcela</button>
+      <button class="secondary" id="btn_limpar_rmc">Limpar</button>
+    </div>
+    <div class="result" id="res_rmc" style="display:none">
+      <span class="small">Liberado (RMC)</span><b id="out_rmc">R$ 0,00</b>
+    </div>
+  </section>
+
+  <!-- Cartão Benefício (5%) -->
+  <section class="card" id="beneficio">
+    <div class="title"><h2><span class="badge">3</span> 5% – Cartão Benefício (Compras)</h2><span class="pct">5%</span></div>
+    <div class="row">
+      <div class="col">
+        <label for="coef_benef">Coeficiente</label>
+        <input id="coef_benef" type="text" inputmode="decimal" value="0,029809">
+      </div>
+    </div>
+    <div class="split"></div>
+    <div class="row">
+      <div class="col">
+        <label for="parcela_benef">Parcela (R$)</label>
+        <input id="parcela_benef" type="text" inputmode="decimal" placeholder="Ex.: 100,00">
+      </div>
+      <div class="col">
+        <label for="liberado_benef">Valor Liberado (R$)</label>
+        <input id="liberado_benef" type="text" inputmode="decimal" placeholder="Ex.: 3.500,00">
+      </div>
+    </div>
+    <div class="btns">
+      <button class="action" id="btn_calc_liberado_benef">Calcular Liberado</button>
+      <button class="action" id="btn_calc_parcela_benef">Calcular Parcela</button>
+      <button class="secondary" id="btn_limpar_benef">Limpar</button>
+    </div>
+    <div class="result" id="res_benef" style="display:none">
+      <span class="small">Liberado (Cartão Benefício)</span><b id="out_benef">R$ 0,00</b>
+    </div>
+  </section>
+</main>
+
+<footer class="total">
+  <div class="line">
+    <span class="pill">Total que entra para o cliente</span><b id="out_total_liberado">R$ 0,00</b>
+  </div>
+  <div class="line" style="margin-top:8px">
+    <span class="pill">Total de parcelas</span><b id="out_total_parcelas">R$ 0,00</b>
+  </div>
+  <div class="topbar">
+    <button class="secondary" id="btn_copy">Copiar mensagem</button>
+    <a id="btnZap" class="secondary" href="#" target="_blank" rel="noopener">Enviar pelo WhatsApp</a>
+  </div>
+  <p class="copy" id="resumoTxt"></p>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
