@@ -4,44 +4,63 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Simulador Agiliza + Promotora</title>
+<meta name="theme-color" content="#ffffff">
 <style>
-  :root{ --azul:#1b4c9b; --lar:#ff6a00; --creme:#f7f4ee; --borda:#e9e7e2; --esc:#133a75; --txt:#333; }
-  *{ box-sizing:border-box; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial }
-  body{ margin:0; background:var(--creme); color:var(--txt) }
-  header{ background:#fff; border-bottom:1px solid var(--borda); padding:16px 12px; text-align:center }
-  header img{ height:64px; display:block; margin:0 auto 8px }
-  h1{ margin:0; font-size:20px; color:var(--azul) }
-  .wrap{ max-width:880px; margin:0 auto; padding:14px }
-  .card{ background:#fff; border:1px solid var(--borda); border-radius:12px; padding:14px; margin:12px 0 }
-  .card h2{ margin:0 0 8px; color:var(--esc); font-size:16px }
-  .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end }
-  .col{ flex:1; min-width:220px }
-  label{ font-size:12px; margin:4px 2px; display:block }
-  input,select{ width:100%; padding:12px; border:1px solid var(--borda); border-radius:10px; font-size:16px; background:#fff }
-  .btns{ display:flex; gap:8px; margin-top:8px; flex-wrap:wrap }
-  button{ padding:12px; border-radius:10px; font-weight:700; cursor:pointer; font-size:16px }
-  .action{ background:var(--azul); color:#fff; border:0; flex:1 }
-  .secondary{ background:#fff; color:var(--azul); border:1px solid var(--borda); flex:1 }
-  .result{ margin-top:8px; padding:10px; border:1px dashed var(--borda); border-radius:10px; display:none; justify-content:space-between; align-items:center }
-  .result b{ color:var(--esc); font-size:18px }
-  .total{ position:sticky; bottom:0; left:0; right:0; background:#fff; border-top:2px solid var(--azul); padding:12px 14px }
-  .total .line{ display:flex; justify-content:space-between; margin:6px 0 }
-  .pill{ display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid var(--borda); color:var(--azul); font-weight:700 }
-  .copy{ white-space:pre-line; font-size:12px; color:#555; margin-top:8px }
+:root{ --azul:#1b4c9b; --laranja:#ff6a00; --creme:#f7f4ee; --cinza:#333; --borda:#e9e7e2; --azul-escuro:#133a75; }
+*{ box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Noto Sans"; }
+body{ margin:0; background:var(--creme); color:var(--cinza); }
+header{ background:#fff; border-bottom:1px solid var(--borda); padding:14px 12px; }
+.headerInner{ max-width:920px; margin:0 auto; display:flex; align-items:center; gap:12px; }
+.logo{ height:56px; width:auto; object-fit:contain; }
+.hgroup{ display:flex; flex-direction:column; }
+.hgroup h1{ font-size:20px; margin:0; color:var(--azul); font-weight:800 }
+.hgroup small{ color:#666 }
+
+.wrap{ padding:14px; max-width:920px; margin:0 auto; }
+.card{ background:#fff; border:1px solid var(--borda); border-radius:12px; padding:14px; margin-bottom:14px; box-shadow:0 1px 4px rgba(0,0,0,.04) }
+.card h2{ font-size:16px; margin:0 0 10px 0; color:var(--azul-escuro) }
+.row{ display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap }
+.col{ flex:1; min-width:220px }
+label{ display:block; font-size:12px; margin:6px 2px }
+input, select, button{ font-size:16px }
+input, select{ width:100%; padding:12px; border:1px solid var(--borda); border-radius:10px; background:#fff }
+input:focus, select:focus{ outline:2px solid rgba(27,76,155,.18) }
+
+.btns{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap }
+button.action{ flex:1; padding:12px; border:0; border-radius:10px; background:var(--azul); color:#fff; font-weight:800; cursor:pointer }
+button.secondary{ flex:1; padding:12px; border:1px solid var(--borda); border-radius:10px; background:#fff; color:var(--azul); font-weight:800; cursor:pointer }
+
+.badge{ display:inline-block; background:var(--laranja); color:#fff; padding:6px 10px; border-radius:999px; font-weight:800; font-size:12px }
+.pct{ font-weight:800; color:var(--azul-escuro); font-size:12px; background:#eef3fb; border:1px solid #dbe6fb; padding:4px 8px; border-radius:999px }
+.title{ display:flex; justify-content:space-between; align-items:center; gap:8px }
+.split{ height:1px; background:var(--borda); margin:12px 0 }
+.result{ display:flex; justify-content:space-between; align-items:center; padding:10px; border:1px dashed var(--borda); border-radius:10px; background:#faf9f7; margin-top:10px }
+.result b{ font-size:18px; color:var(--azul-escuro) }
+.small{ font-size:11px; color:#666 }
+
+footer.total{ position:sticky; bottom:0; left:0; right:0; background:#fff; border-top:2px solid var(--azul); padding:12px 14px; box-shadow:0 -6px 16px rgba(0,0,0,.06) }
+.total .line{ display:flex; justify-content:space-between; align-items:center }
+.total .line b{ font-size:20px; color:var(--azul-escuro) }
+.pill{ display:inline-block; padding:6px 10px; border-radius:999px; background:#fff; border:1px solid var(--borda); font-weight:700; color:var(--azul) }
+.topbar{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 2px }
+.copy{ font-size:12px; color:#666; margin-top:6px; white-space:pre-line }
 </style>
 </head>
 <body>
-
 <header>
-  <!-- Se não quiser logo, apague a linha abaixo -->
-  <img src="logo.png" alt="Agiliza+ Promotora" onerror="this.style.display='none'">
-  <h1>Simulador Agiliza + Promotora</h1>
+  <div class="headerInner">
+    <img src="img/logo.png" alt="Agiliza + Promotora" class="logo">
+    <div class="hgroup">
+      <h1>Simulador Agiliza + Promotora</h1>
+      <small>35% Empréstimo • 5% RMC • 5% Cartão Benefício</small>
+    </div>
+  </div>
 </header>
 
 <main class="wrap">
-  <!-- Dados do Cliente -->
+  <!-- Cliente -->
   <section class="card">
-    <h2>0 — Dados do Cliente</h2>
+    <h2><span class="badge">0</span> Dados do Cliente</h2>
     <div class="row">
       <div class="col">
         <label for="cli_nome">Nome</label>
@@ -53,13 +72,16 @@
       </div>
     </div>
     <div class="btns">
-      <button class="secondary" type="button" id="btn_limpar_cliente">Limpar Cliente</button>
+      <button class="secondary" id="btn_limpar_cliente" type="button">Limpar Cliente</button>
     </div>
   </section>
 
   <!-- 35% Margem Nova -->
-  <section class="card" id="sec_nova">
-    <h2>1 — 35% • Margem Nova (Empréstimo)</h2>
+  <section class="card" id="nova">
+    <div class="title">
+      <h2><span class="badge">1</span> 35% – Margem Nova (Empréstimo)</h2>
+      <span class="pct">35%</span>
+    </div>
     <div class="row">
       <div class="col">
         <label for="prazo_nova">Prazo (meses)</label>
@@ -76,6 +98,7 @@
         <input id="coef_nova" type="text" inputmode="decimal" value="0,023701">
       </div>
     </div>
+    <div class="split"></div>
     <div class="row">
       <div class="col">
         <label for="parcela_nova">Parcela (R$)</label>
@@ -87,22 +110,28 @@
       </div>
     </div>
     <div class="btns">
-      <button class="action" type="button" id="btn_calc_liberado_nova">Calcular Liberado</button>
-      <button class="action" type="button" id="btn_calc_parcela_nova">Calcular Parcela</button>
-      <button class="secondary" type="button" id="btn_limpar_nova">Limpar</button>
+      <button class="action" id="btn_calc_liberado_nova" type="button">Calcular Liberado</button>
+      <button class="action" id="btn_calc_parcela_nova" type="button">Calcular Parcela</button>
+      <button class="secondary" id="btn_limpar_nova" type="button">Limpar</button>
     </div>
-    <div class="result" id="res_nova"><span>Liberado (35%)</span><b id="out_nova">R$ 0,00</b></div>
+    <div class="result" id="res_nova" style="display:none">
+      <span class="small">Liberado (35%)</span><b id="out_nova">R$ 0,00</b>
+    </div>
   </section>
 
-  <!-- 5% Cartão RMC (Saque) -->
-  <section class="card" id="sec_rmc">
-    <h2>2 — 5% • Cartão RMC (Saque)</h2>
+  <!-- 5% RMC -->
+  <section class="card" id="rmc">
+    <div class="title">
+      <h2><span class="badge">2</span> 5% – Cartão RMC (Saque)</h2>
+      <span class="pct">5%</span>
+    </div>
     <div class="row">
       <div class="col">
         <label for="coef_rmc">Coeficiente</label>
         <input id="coef_rmc" type="text" inputmode="decimal" value="0,029809">
       </div>
     </div>
+    <div class="split"></div>
     <div class="row">
       <div class="col">
         <label for="parcela_rmc">Parcela (R$)</label>
@@ -114,22 +143,28 @@
       </div>
     </div>
     <div class="btns">
-      <button class="action" type="button" id="btn_calc_liberado_rmc">Calcular Liberado</button>
-      <button class="action" type="button" id="btn_calc_parcela_rmc">Calcular Parcela</button>
-      <button class="secondary" type="button" id="btn_limpar_rmc">Limpar</button>
+      <button class="action" id="btn_calc_liberado_rmc" type="button">Calcular Liberado</button>
+      <button class="action" id="btn_calc_parcela_rmc" type="button">Calcular Parcela</button>
+      <button class="secondary" id="btn_limpar_rmc" type="button">Limpar</button>
     </div>
-    <div class="result" id="res_rmc"><span>Liberado (RMC)</span><b id="out_rmc">R$ 0,00</b></div>
+    <div class="result" id="res_rmc" style="display:none">
+      <span class="small">Liberado (RMC)</span><b id="out_rmc">R$ 0,00</b>
+    </div>
   </section>
 
-  <!-- 5% Cartão Benefício (Compras) -->
-  <section class="card" id="sec_benef">
-    <h2>3 — 5% • Cartão Benefício (Compras)</h2>
+  <!-- 5% Cartão Benefício -->
+  <section class="card" id="beneficio">
+    <div class="title">
+      <h2><span class="badge">3</span> 5% – Cartão Benefício (Compras)</h2>
+      <span class="pct">5%</span>
+    </div>
     <div class="row">
       <div class="col">
         <label for="coef_benef">Coeficiente</label>
         <input id="coef_benef" type="text" inputmode="decimal" value="0,029809">
       </div>
     </div>
+    <div class="split"></div>
     <div class="row">
       <div class="col">
         <label for="parcela_benef">Parcela (R$)</label>
@@ -141,120 +176,153 @@
       </div>
     </div>
     <div class="btns">
-      <button class="action" type="button" id="btn_calc_liberado_benef">Calcular Liberado</button>
-      <button class="action" type="button" id="btn_calc_parcela_benef">Calcular Parcela</button>
-      <button class="secondary" type="button" id="btn_limpar_benef">Limpar</button>
+      <button class="action" id="btn_calc_liberado_benef" type="button">Calcular Liberado</button>
+      <button class="action" id="btn_calc_parcela_benef" type="button">Calcular Parcela</button>
+      <button class="secondary" id="btn_limpar_benef" type="button">Limpar</button>
     </div>
-    <div class="result" id="res_benef"><span>Liberado (Benefício)</span><b id="out_benef">R$ 0,00</b></div>
+    <div class="result" id="res_benef" style="display:none">
+      <span class="small">Liberado (Cartão Benefício)</span><b id="out_benef">R$ 0,00</b>
+    </div>
   </section>
 </main>
 
 <footer class="total">
-  <div class="line"><span class="pill">Total que entra para o cliente</span><b id="out_total_liberado">R$ 0,00</b></div>
-  <div class="line"><span class="pill">Total de parcelas</span><b id="out_total_parcelas">R$ 0,00</b></div>
-  <div class="btns" style="margin-top:8px">
-    <button class="secondary" type="button" id="btn_copy">Copiar mensagem</button>
-    <a class="secondary" id="btnZap" href="#" target="_blank" rel="noopener" style="text-align:center">Enviar pelo WhatsApp</a>
+  <div class="line">
+    <span class="pill">Total que entra para o cliente</span><b id="out_total_liberado">R$ 0,00</b>
+  </div>
+  <div class="line" style="margin-top:8px">
+    <span class="pill">Total de parcelas</span><b id="out_total_parcelas">R$ 0,00</b>
+  </div>
+  <div class="topbar">
+    <button class="secondary" id="btn_copy" type="button">Copiar mensagem</button>
+    <a id="btnZap" class="secondary" href="#" target="_blank" rel="noopener">Enviar pelo WhatsApp</a>
   </div>
   <p class="copy" id="resumoTxt"></p>
 </footer>
 
 <script>
-  function parseNum(v){ if(!v) return 0; v=(''+v).trim().replace(/\./g,'').replace(/,/g,'.'); return Number(v)||0; }
-  function fmtBRL(n){ return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
-  function setTxt(id, val){ const el=document.getElementById(id); if(el) el.textContent=val; }
+function parseNum(v){
+  if(!v){ return 0; }
+  v = (''+v).trim();
+  // remove separador de milhar . e troca vírgula por ponto
+  v = v.replace(/\./g,'').replace(/,/g,'.');
+  var n = Number(v);
+  return isNaN(n) ? 0 : n;
+}
+function fmtBRL(n){ try{ return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }catch(e){ return 'R$ ' + (Math.round(n*100)/100).toFixed(2).replace('.',','); } }
+function setTxt(id, val){ var el=document.getElementById(id); if(el){ el.textContent=val; } }
 
-  const TABELA_NOVA = {96:0.023701,84:0.024954,72:0.026721,60:0.029316,48:0.033366};
-  const prazoSel = document.getElementById('prazo_nova');
-  prazoSel.addEventListener('change', ()=>{ const c=TABELA_NOVA[Number(prazoSel.value)]; if(c) document.getElementById('coef_nova').value = (''+c).replace('.',','); });
-
-  function calcLiberado(tipo){
-    const coef = parseNum(document.getElementById('coef_'+tipo).value);
-    const parcela = parseNum(document.getElementById('parcela_'+tipo).value);
-    if(coef<=0 || parcela<=0){ alert('Preencha coeficiente e parcela.'); return; }
-    const fator = (tipo==='rmc' || tipo==='benef') ? 0.70 : 1.0;
-    const liberado = (parcela * fator) / coef;
-    document.getElementById('liberado_'+tipo).value = liberado.toFixed(2).replace('.',',');
-    document.getElementById('res_'+tipo).style.display = 'flex';
-    document.getElementById('out_'+tipo).textContent = fmtBRL(liberado);
-    somarTotais();
+var TABELA_COEF_NOVA = {96:0.023701,84:0.024954,72:0.026721,60:0.029316,48:0.033366};
+function setCoefPrazo(){
+  var prazo = Number(document.getElementById('prazo_nova').value);
+  var coef = TABELA_COEF_NOVA[prazo];
+  if(typeof coef==='number'){
+    document.getElementById('coef_nova').value = (''+coef).replace('.',',');
   }
-  function calcParcela(tipo){
-    const coef = parseNum(document.getElementById('coef_'+tipo).value);
-    const liberado = parseNum(document.getElementById('liberado_'+tipo).value);
-    if(coef<=0 || liberado<=0){ alert('Preencha coeficiente e valor liberado.'); return; }
-    const fator = (tipo==='rmc' || tipo==='benef') ? 0.70 : 1.0;
-    const parcela = (liberado * coef) / fator;
-    document.getElementById('parcela_'+tipo).value = parcela.toFixed(2).replace('.',',');
-    document.getElementById('res_'+tipo).style.display = 'flex';
-    document.getElementById('out_'+tipo).textContent = fmtBRL(liberado);
-    somarTotais();
+}
+
+function calcLiberado(tipo){
+  var coef = parseNum(document.getElementById('coef_'+tipo).value);
+  var parcela = parseNum(document.getElementById('parcela_'+tipo).value);
+  if(coef<=0 || parcela<=0){ alert('Preencha coeficiente e parcela.'); return; }
+  var fator = (tipo==='rmc' || tipo==='benef') ? 0.70 : 1.0;
+  var liberado = (parcela * fator) / coef;
+  document.getElementById('liberado_'+tipo).value = (Math.round(liberado*100)/100).toFixed(2).replace('.',',');
+  document.getElementById('out_'+tipo).textContent = fmtBRL(liberado);
+  document.getElementById('res_'+tipo).style.display='flex';
+  somaTotais();
+}
+function calcParcela(tipo){
+  var coef = parseNum(document.getElementById('coef_'+tipo).value);
+  var liberado = parseNum(document.getElementById('liberado_'+tipo).value);
+  if(coef<=0 || liberado<=0){ alert('Preencha coeficiente e valor liberado.'); return; }
+  var fator = (tipo==='rmc' || tipo==='benef') ? 0.70 : 1.0;
+  var parcela = (liberado * coef) / fator;
+  document.getElementById('parcela_'+tipo).value = (Math.round(parcela*100)/100).toFixed(2).replace('.',',');
+  document.getElementById('out_'+tipo).textContent = fmtBRL(liberado);
+  document.getElementById('res_'+tipo).style.display='flex';
+  somaTotais();
+}
+function limpar(tipo){
+  document.getElementById('parcela_'+tipo).value='';
+  document.getElementById('liberado_'+tipo).value='';
+  document.getElementById('res_'+tipo).style.display='none';
+  document.getElementById('out_'+tipo).textContent='R$ 0,00';
+  somaTotais();
+}
+
+function maskCPF(){
+  var el = document.getElementById('cli_cpf');
+  var v = el.value.replace(/\D/g,'').slice(0,11);
+  if(v.length>9){ el.value=v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/,'$1.$2.$3-$4'); }
+  else if(v.length>6){ el.value=v.replace(/(\d{3})(\d{3})(\d{0,3})/,'$1.$2.$3'); }
+  else if(v.length>3){ el.value=v.replace(/(\d{3})(\d{0,3})/,'$1.$2'); }
+  else{ el.value=v; }
+}
+
+function somaTotais(){
+  var nL = parseNum(document.getElementById('liberado_nova').value);
+  var rL = parseNum(document.getElementById('liberado_rmc').value);
+  var bL = parseNum(document.getElementById('liberado_benef').value);
+  var totalLiberado = nL + rL + bL;
+  setTxt('out_total_liberado', fmtBRL(totalLiberado));
+
+  var nP = parseNum(document.getElementById('parcela_nova').value);
+  var rP = parseNum(document.getElementById('parcela_rmc').value);
+  var bP = parseNum(document.getElementById('parcela_benef').value);
+  var totalParcelas = nP + rP + bP;
+  setTxt('out_total_parcelas', fmtBRL(totalParcelas));
+
+  var nome = (document.getElementById('cli_nome').value||'').trim() || '(sem nome)';
+  var cpf  = (document.getElementById('cli_cpf').value||'').trim() || '(sem CPF)';
+  var msg = 
+    'Cliente: ' + nome + '\\n' +
+    'CPF: ' + cpf + '\\n' +
+    '35% (Empréstimo): ' + fmtBRL(nL) + ' | Parcela: ' + fmtBRL(nP) + '\\n' +
+    '5% (Cartão RMC): ' + fmtBRL(rL) + ' | Parcela: ' + fmtBRL(rP) + '\\n' +
+    '5% (Cartão Benefício): ' + fmtBRL(bL) + ' | Parcela: ' + fmtBRL(bP) + '\\n' +
+    'TOTAL LIBERADO: ' + fmtBRL(totalLiberado) + '\\n' +
+    'TOTAL PARCELAS: ' + fmtBRL(totalParcelas);
+  document.getElementById('resumoTxt').textContent = msg;
+  document.getElementById('btnZap').href = 'https://wa.me/?text=' + encodeURIComponent('Simulação Agiliza + Promotora\\n\\n' + msg);
+}
+
+function copiarResumo(){
+  var txt = document.getElementById('resumoTxt').textContent || '';
+  if(!txt){ alert('Faça uma simulação antes.'); return; }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(function(){ alert('Mensagem copiada!'); }, function(){ alert('Selecione o texto e copie.'); });
+  }else{
+    var ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); alert('Mensagem copiada!'); }catch(e){ alert('Selecione o texto e copie.'); }
+    ta.remove();
   }
-  function limpar(tipo){
-    ['parcela_','liberado_'].forEach(p=>document.getElementById(p+tipo).value='');
-    document.getElementById('res_'+tipo).style.display='none';
-    document.getElementById('out_'+tipo).textContent='R$ 0,00';
-    somarTotais();
-  }
+}
 
-  function somarTotais(){
-    const totL = ['nova','rmc','benef'].map(t=>parseNum(document.getElementById('liberado_'+t).value)).reduce((a,b)=>a+b,0);
-    const totP = ['nova','rmc','benef'].map(t=>parseNum(document.getElementById('parcela_'+t).value)).reduce((a,b)=>a+b,0);
-    setTxt('out_total_liberado', fmtBRL(totL));
-    setTxt('out_total_parcelas', fmtBRL(totP));
+document.getElementById('prazo_nova').addEventListener('change', setCoefPrazo);
+document.getElementById('btn_calc_liberado_nova').addEventListener('click', function(){ calcLiberado('nova'); });
+document.getElementById('btn_calc_parcela_nova').addEventListener('click', function(){ calcParcela('nova'); });
+document.getElementById('btn_limpar_nova').addEventListener('click', function(){ limpar('nova'); });
 
-    const nome = (document.getElementById('cli_nome').value||'').trim() || '(sem nome)';
-    const cpf  = (document.getElementById('cli_cpf').value||'').trim() || '(sem CPF)';
-    const msg = [
-      Cliente: ${nome},
-      CPF: ${cpf},
-      35% (Empréstimo): ${fmtBRL(parseNum(document.getElementById('liberado_nova').value))} | Parcela: ${fmtBRL(parseNum(document.getElementById('parcela_nova').value))},
-      5% (Cartão RMC): ${fmtBRL(parseNum(document.getElementById('liberado_rmc').value))} | Parcela: ${fmtBRL(parseNum(document.getElementById('parcela_rmc').value))},
-      5% (Cartão Benefício): ${fmtBRL(parseNum(document.getElementById('liberado_benef').value))} | Parcela: ${fmtBRL(parseNum(document.getElementById('parcela_benef').value))},
-      TOTAL LIBERADO: ${fmtBRL(totL)},
-      TOTAL PARCELAS: ${fmtBRL(totP)}
-    ].join('\n');
-    document.getElementById('resumoTxt').textContent = msg;
-    document.getElementById('btnZap').href = 'https://wa.me/?text='+encodeURIComponent('Simulação Agiliza + Promotora\n\n'+msg);
-  }
+document.getElementById('btn_calc_liberado_rmc').addEventListener('click', function(){ calcLiberado('rmc'); });
+document.getElementById('btn_calc_parcela_rmc').addEventListener('click', function(){ calcParcela('rmc'); });
+document.getElementById('btn_limpar_rmc').addEventListener('click', function(){ limpar('rmc'); });
 
-  // Botões
-  document.getElementById('btn_calc_liberado_nova').addEventListener('click', ()=>calcLiberado('nova'));
-  document.getElementById('btn_calc_parcela_nova').addEventListener('click',  ()=>calcParcela('nova'));
-  document.getElementById('btn_limpar_nova').addEventListener('click',        ()=>limpar('nova'));
+document.getElementById('btn_calc_liberado_benef').addEventListener('click', function(){ calcLiberado('benef'); });
+document.getElementById('btn_calc_parcela_benef').addEventListener('click', function(){ calcParcela('benef'); });
+document.getElementById('btn_limpar_benef').addEventListener('click', function(){ limpar('benef'); });
 
-  document.getElementById('btn_calc_liberado_rmc').addEventListener('click',  ()=>calcLiberado('rmc'));
-  document.getElementById('btn_calc_parcela_rmc').addEventListener('click',   ()=>calcParcela('rmc'));
-  document.getElementById('btn_limpar_rmc').addEventListener('click',         ()=>limpar('rmc'));
+document.getElementById('btn_limpar_cliente').addEventListener('click', function(){
+  document.getElementById('cli_nome').value='';
+  document.getElementById('cli_cpf').value='';
+  somaTotais();
+});
 
-  document.getElementById('btn_calc_liberado_benef').addEventListener('click',()=>calcLiberado('benef'));
-  document.getElementById('btn_calc_parcela_benef').addEventListener('click', ()=>calcParcela('benef'));
-  document.getElementById('btn_limpar_benef').addEventListener('click',       ()=>limpar('benef'));
-
-  // Atualiza totais ao digitar
-  ['parcela_nova','liberado_nova','parcela_rmc','liberado_rmc','parcela_benef','liberado_benef'].forEach(id=>{
-    document.getElementById(id).addEventListener('input', somarTotais);
-  });
-
-  // CPF máscara simples
-  document.getElementById('cli_cpf').addEventListener('input', function(){
-    let v=this.value.replace(/\D/g,'').slice(0,11);
-    if(v.length>9) this.value=v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/,'$1.$2.$3-$4');
-    else if(v.length>6) this.value=v.replace(/(\d{3})(\d{3})(\d{0,3})/,'$1.$2.$3');
-    else if(v.length>3) this.value=v.replace(/(\d{3})(\d{0,3})/,'$1.$2');
-    else this.value=v;
-  });
-
-  // Copiar resumo
-  document.getElementById('btn_copy').addEventListener('click', function(){
-    const txt = document.getElementById('resumoTxt').textContent||'';
-    if(!txt){ alert('Faça uma simulação antes.'); return; }
-    if(navigator.clipboard?.writeText){ navigator.clipboard.writeText(txt).then(()=>alert('Mensagem copiada!'),()=>alert('Selecione o texto e copie.')); }
-    else { const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); alert('Mensagem copiada!'); }
-  });
-
-  // Limpar cliente
-  document.getElementById('btn_limpar_cliente').addEventListener('click', ()=>{ document.getElementById('cli_nome').value=''; document.getElementById('cli_cpf').value=''; });
+document.getElementById('cli_cpf').addEventListener('input', maskCPF);
+['liberado_nova','liberado_rmc','liberado_benef','parcela_nova','parcela_rmc','parcela_benef'].forEach(function(id){
+  var el=document.getElementById(id); if(el){ el.addEventListener('input', somaTotais); }
+});
+setCoefPrazo(); // garante coef inicial
 </script>
 </body>
 </html>
