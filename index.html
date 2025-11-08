@@ -1,43 +1,36 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 <title>Simulador Agiliza + Promotora</title>
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#ffffff" />
 <style>
-  :root{ --azul:#1b4c9b; --laranja:#ff6a00; --creme:#f7f4ee; --cinza:#333; --borda:#e9e7e2; --azul-escuro:#133a75; --verde:#1a7f37; }
+  :root{ --azul:#1b4c9b; --laranja:#ff6a00; --creme:#f7f4ee; --cinza:#333; --borda:#e9e7e2; --azul-escuro:#133a75; }
   *{ box-sizing:border-box; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji"; }
-  html,body{ height:100% }
-  body{ margin:0; background:var(--creme); color:var(--cinza); }
-
-  /* Cabeçalho simples (apenas título, como você pediu) */
-  header{ background:#fff; color:var(--azul); padding:22px 16px; border-bottom:1px solid var(--borda); }
-  h1{ font-size:24px; margin:0; line-height:1.2; font-weight:800; text-align:center; color:var(--azul); }
-
+  html,body{ height:100% } body{ margin:0; background:var(--creme); color:var(--cinza); }
+  header{ background:#fff; color:var(--azul); padding:22px 16px; border-bottom:1px solid var(--borda); text-align:center; }
+  header h1{ margin:0; font-size:22px; line-height:1.2; font-weight:800; }
   .wrap{ padding:14px; max-width:880px; margin:0 auto; }
   .card{ background:#fff; border:1px solid var(--borda); border-radius:14px; padding:14px 12px; margin-bottom:14px; box-shadow:0 1px 3px rgba(0,0,0,.04) }
   .card h2{ font-size:16px; margin:0 0 10px 0; color:var(--azul-escuro) }
   .row{ display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap }
   .col{ flex:1; min-width:220px }
   label{ display:block; font-size:12px; margin:6px 2px }
-  input,select{ width:100%; padding:13px 12px; border:1px solid var(--borda); border-radius:10px; font-size:16px; background:#fff }
-  input:focus,select:focus{ outline:2px solid rgba(27,76,155,.15) }
-  .hint{ font-size:12px; color:#666; margin-top:6px }
+  input, select{ width:100%; padding:13px 12px; border:1px solid var(--borda); border-radius:10px; font-size:16px; background:#fff }
+  input:focus, select:focus{ outline:2px solid rgba(27,76,155,.15) }
   .btns{ display:flex; gap:8px; margin-top:10px; flex-wrap:wrap }
   button.action{ flex:1; padding:12px; border:0; border-radius:10px; background:var(--azul); color:#fff; font-weight:800; cursor:pointer }
-  button.secondary{ flex:1; padding:12px; border:1px solid var(--borda); border-radius:10px; background:#fff; color:var(--azul); font-weight:800; text-align:center; text-decoration:none; display:inline-block; cursor:pointer }
+  button.secondary{ flex:1; padding:12px; border:1px solid var(--borda); border-radius:10px; background:#fff; color:var(--azul); font-weight:800; cursor:pointer; text-align:center }
   .result{ display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px dashed var(--borda); border-radius:10px; background:#faf9f7; margin-top:10px }
   .result b{ font-size:18px; color:var(--azul-escuro) }
-  .result.troco b{ color:var(--verde) }
   .badge{ display:inline-block; background:var(--laranja); color:#fff; padding:6px 10px; border-radius:999px; font-weight:800; font-size:12px }
-  .split{ height:1px; background:var(--borda); margin:12px 0 }
-  .small{ font-size:11px; color:#666 }
   .title{ display:flex; justify-content:space-between; gap:6px; align-items:center }
   .pct{ font-weight:800; color:var(--azul-escuro); font-size:12px; background:#eef3fb; border:1px solid #dbe6fb; padding:4px 8px; border-radius:999px }
+  .split{ height:1px; background:var(--borda); margin:12px 0 }
+  .small{ font-size:11px; color:#666 }
   .total{ position:sticky; bottom:0; left:0; right:0; background:#fff; border-top:2px solid var(--azul); padding:12px 14px; box-shadow:0 -6px 18px rgba(0,0,0,.06) }
   .total .line{ display:flex; justify-content:space-between; align-items:center }
-  .total .line b{ font-size:20px; color:var(--azul-escuro) }
   .pill{ display:inline-block; padding:6px 10px; border-radius:999px; background:#fff; border:1px solid var(--borda); font-weight:700; color:var(--azul) }
   .topbar{ display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 2px }
   .copy{ font-size:12px; color:#666; margin-top:6px; white-space:pre-line }
@@ -49,17 +42,25 @@
 </header>
 
 <main class="wrap">
-  <!-- Dados do Cliente -->
+  <!-- Cliente -->
   <section class="card">
     <h2 class="title"><span class="badge">0</span> Dados do Cliente</h2>
     <div class="row">
-      <div class="col"><label for="cli_nome">Nome</label><input id="cli_nome" type="text" placeholder="Ex.: Maria Silva"></div>
-      <div class="col"><label for="cli_cpf">CPF</label><input id="cli_cpf" type="text" inputmode="numeric" placeholder="000.000.000-00" maxlength="14"></div>
+      <div class="col">
+        <label for="cli_nome">Nome</label>
+        <input id="cli_nome" type="text" placeholder="Ex.: Maria Silva" />
+      </div>
+      <div class="col">
+        <label for="cli_cpf">CPF</label>
+        <input id="cli_cpf" type="text" inputmode="numeric" placeholder="000.000.000-00" maxlength="14" />
+      </div>
     </div>
-    <div class="btns"><button class="secondary" id="btn_limpar_cliente">Limpar Cliente</button></div>
+    <div class="btns">
+      <button class="secondary" id="btn_limpar_cliente">Limpar Cliente</button>
+    </div>
   </section>
 
-  <!-- Margem Nova (35%) -->
+  <!-- 35% Margem Nova -->
   <section class="card" id="nova">
     <div class="title"><h2><span class="badge">1</span> 35% – Margem Nova (Empréstimo)</h2><span class="pct">35%</span></div>
 
@@ -76,36 +77,37 @@
       </div>
       <div class="col">
         <label for="coef_nova">Coeficiente</label>
-        <input id="coef_nova" type="text" inputmode="decimal" placeholder="Ex.: 0,023701" value="0,023701">
+        <input id="coef_nova" type="text" inputmode="decimal" placeholder="Ex.: 0,023701" value="0,023701" />
       </div>
     </div>
 
     <div class="split"></div>
 
     <div class="row">
-      <div class="col"><label for="parcela_nova">Parcela (R$)</label><input id="parcela_nova" type="text" inputmode="decimal" placeholder="Ex.: 350,00"></div>
-      <div class="col"><label for="liberado_nova">Valor Liberado (R$)</label><input id="liberado_nova" type="text" inputmode="decimal" placeholder="Ex.: 10.000,00"></div>
+      <div class="col"><label for="parcela_nova">Parcela (R$)</label><input id="parcela_nova" type="text" inputmode="decimal" placeholder="Ex.: 350,00" /></div>
+      <div class="col"><label for="liberado_nova">Valor Liberado (R$)</label><input id="liberado_nova" type="text" inputmode="decimal" placeholder="Ex.: 10.000,00" /></div>
     </div>
-
     <div class="btns">
       <button class="action" id="btn_calc_liberado_nova">Calcular Liberado</button>
       <button class="action" id="btn_calc_parcela_nova">Calcular Parcela</button>
       <button class="secondary" id="btn_limpar_nova">Limpar</button>
     </div>
-
     <div class="result" id="res_nova" style="display:none"><span class="small">Liberado (35%)</span><b id="out_nova">R$ 0,00</b></div>
   </section>
 
-  <!-- RMC -->
+  <!-- 5% RMC -->
   <section class="card" id="rmc">
     <div class="title"><h2><span class="badge">2</span> 5% – Cartão RMC (Saque)</h2><span class="pct">5%</span></div>
     <div class="row">
-      <div class="col"><label for="coef_rmc">Coeficiente</label><input id="coef_rmc" type="text" inputmode="decimal" placeholder="Ex.: 0,029809" value="0,029809"></div>
+      <div class="col">
+        <label for="coef_rmc">Coeficiente</label>
+        <input id="coef_rmc" type="text" inputmode="decimal" placeholder="Ex.: 0,029809" value="0,029809" />
+      </div>
     </div>
     <div class="split"></div>
     <div class="row">
-      <div class="col"><label for="parcela_rmc">Parcela (R$)</label><input id="parcela_rmc" type="text" inputmode="decimal" placeholder="Ex.: 100,00"></div>
-      <div class="col"><label for="liberado_rmc">Valor Liberado (R$)</label><input id="liberado_rmc" type="text" inputmode="decimal" placeholder="Ex.: 3.500,00"></div>
+      <div class="col"><label for="parcela_rmc">Parcela (R$)</label><input id="parcela_rmc" type="text" inputmode="decimal" placeholder="Ex.: 100,00" /></div>
+      <div class="col"><label for="liberado_rmc">Valor Liberado (R$)</label><input id="liberado_rmc" type="text" inputmode="decimal" placeholder="Ex.: 3.500,00" /></div>
     </div>
     <div class="btns">
       <button class="action" id="btn_calc_liberado_rmc">Calcular Liberado</button>
@@ -115,16 +117,19 @@
     <div class="result" id="res_rmc" style="display:none"><span class="small">Liberado (RMC)</span><b id="out_rmc">R$ 0,00</b></div>
   </section>
 
-  <!-- Cartão Benefício -->
+  <!-- 5% Benefício -->
   <section class="card" id="beneficio">
     <div class="title"><h2><span class="badge">3</span> 5% – Cartão Benefício (Compras)</h2><span class="pct">5%</span></div>
     <div class="row">
-      <div class="col"><label for="coef_benef">Coeficiente</label><input id="coef_benef" type="text" inputmode="decimal" placeholder="Ex.: 0,029809" value="0,029809"></div>
+      <div class="col">
+        <label for="coef_benef">Coeficiente</label>
+        <input id="coef_benef" type="text" inputmode="decimal" placeholder="Ex.: 0,029809" value="0,029809" />
+      </div>
     </div>
     <div class="split"></div>
     <div class="row">
-      <div class="col"><label for="parcela_benef">Parcela (R$)</label><input id="parcela_benef" type="text" inputmode="decimal" placeholder="Ex.: 100,00"></div>
-      <div class="col"><label for="liberado_benef">Valor Liberado (R$)</label><input id="liberado_benef" type="text" inputmode="decimal" placeholder="Ex.: 3.500,00"></div>
+      <div class="col"><label for="parcela_benef">Parcela (R$)</label><input id="parcela_benef" type="text" inputmode="decimal" placeholder="Ex.: 100,00" /></div>
+      <div class="col"><label for="liberado_benef">Valor Liberado (R$)</label><input id="liberado_benef" type="text" inputmode="decimal" placeholder="Ex.: 3.500,00" /></div>
     </div>
     <div class="btns">
       <button class="action" id="btn_calc_liberado_benef">Calcular Liberado</button>
@@ -136,8 +141,16 @@
 </main>
 
 <footer class="total">
-  <div class="line"><span class="pill">Total que entra para o cliente</span><b id="out_total">R$ 0,00</b></div>
-  <div class="topbar"><button class="secondary" id="btn_copy">Copiar mensagem</button><a id="btnZap" class="secondary" href="#" target="_blank" rel="noopener">Enviar pelo WhatsApp</a></div>
+  <div class="line">
+    <span class="pill">TOTAL LIBERADO</span><b id="out_total_liberado">R$ 0,00</b>
+  </div>
+  <div class="line" style="margin-top:8px">
+    <span class="pill">TOTAL PARCELA</span><b id="out_total_parcela">R$ 0,00</b>
+  </div>
+  <div class="topbar">
+    <button class="secondary" id="btn_copy">Copiar mensagem</button>
+    <a id="btnZap" class="secondary" href="#" target="_blank" rel="noopener">Enviar pelo WhatsApp</a>
+  </div>
   <p class="copy" id="resumoTxt"></p>
 </footer>
 
@@ -145,9 +158,22 @@
 /* ===== Utilidades ===== */
 function parseNum(v){ if(!v) return 0; v=(''+v).trim().replace(/\./g,'').replace(/,/g,'.'); return Number(v)||0; }
 function fmtBRL(n){ return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
-function sanitizeCoef(input){ const n=parseNum(input.value); if(n>0){ input.value=n.toString().replace('.',','); } }
+function setVal(id,v){ document.getElementById(id).value = v; }
+function show(id){ document.getElementById(id).style.display='flex'; }
 
-/* ===== Coeficientes por prazo (Margem Nova 35%) ===== */
+/* ===== Cliente ===== */
+document.getElementById('btn_limpar_cliente').addEventListener('click', ()=>{
+  setVal('cli_nome',''); setVal('cli_cpf',''); somaTotais();
+});
+document.getElementById('cli_cpf').addEventListener('input',function(){
+  let v=this.value.replace(/\D/g,''); v=v.slice(0,11);
+  if(v.length>9) this.value=v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/,'$1.$2.$3-$4');
+  else if(v.length>6) this.value=v.replace(/(\d{3})(\d{3})(\d{0,3})/,'$1.$2.$3');
+  else if(v.length>3) this.value=v.replace(/(\d{3})(\d{0,3})/,'$1.$2');
+  else this.value=v;
+});
+
+/* ===== Coeficientes Margem Nova por prazo ===== */
 const TABELA_COEF_NOVA = {
   96: 0.023701,
   84: 0.024954,
@@ -158,118 +184,109 @@ const TABELA_COEF_NOVA = {
 function setCoefMargemNovaPorPrazo(){
   const prazo = Number(document.getElementById('prazo_nova').value);
   const coef = TABELA_COEF_NOVA[prazo];
-  if (typeof coef === 'number' && coef > 0) {
-    document.getElementById('coef_nova').value = coef.toString().replace('.',',');
+  if (typeof coef === 'number' && coef > 0){
+    setVal('coef_nova', coef.toFixed(6).replace('.',','));
   }
 }
+document.getElementById('prazo_nova').addEventListener('change', setCoefMargemNovaPorPrazo);
+setCoefMargemNovaPorPrazo();
 
-/* ===== Empréstimo / Cartões ===== */
-function fatorDoTipo(tipo){ return (tipo==='rmc'||tipo==='benef') ? 0.70 : 1.0; }
+/* ===== Cálculos ===== */
+// Fator 70% para cartões
+function fator(tipo){ return (tipo==='rmc'||tipo==='benef') ? 0.70 : 1.0; }
 
+// Calcular LIBERADO a partir da PARCELA
 function calcLiberado(tipo){
-  const coef=parseNum(document.getElementById('coef_'+tipo).value);
-  const parcela=parseNum(document.getElementById('parcela_'+tipo).value);
-  if(coef<=0||parcela<=0){ alert('Preencha coeficiente e parcela.'); return; }
-  const fator=fatorDoTipo(tipo);
-  const liberado=(parcela*fator)/coef; // sem seguro na margem nova
-  document.getElementById('liberado_'+tipo).value=liberado.toFixed(2).replace('.',',');
-  document.getElementById('out_'+tipo).textContent=fmtBRL(liberado);
-  document.getElementById('res_'+tipo).style.display='flex';
-  somaTotal();
+  const coef = parseNum(document.getElementById('coef_'+tipo).value);
+  const parc = parseNum(document.getElementById('parcela_'+tipo).value);
+  if(coef<=0 || parc<=0){ alert('Preencha coeficiente e parcela.'); return; }
+  const lib = (parc * fator(tipo)) / coef; // sem desconto de seguro
+  setVal('liberado_'+tipo, lib.toFixed(2).replace('.',','));
+  document.getElementById('out_'+tipo).textContent = fmtBRL(lib);
+  show('res_'+tipo);
+  somaTotais();
 }
 
+// Calcular PARCELA a partir do LIBERADO
 function calcParcela(tipo){
-  const coef=parseNum(document.getElementById('coef_'+tipo).value);
-  const liberado=parseNum(document.getElementById('liberado_'+tipo).value);
-  if(coef<=0||liberado<=0){ alert('Preencha coeficiente e valor liberado.'); return; }
-  const fator=fatorDoTipo(tipo);
-  const parcela=(liberado*coef)/fator; // sem adicionar 500
-  document.getElementById('parcela_'+tipo).value=parcela.toFixed(2).replace('.',',');
-  document.getElementById('out_'+tipo).textContent=fmtBRL(liberado);
-  document.getElementById('res_'+tipo).style.display='flex';
-  somaTotal();
+  const coef = parseNum(document.getElementById('coef_'+tipo).value);
+  const lib = parseNum(document.getElementById('liberado_'+tipo).value);
+  if(coef<=0 || lib<=0){ alert('Preencha coeficiente e valor liberado.'); return; }
+  const parc = (lib * coef) / fator(tipo); // sem seguro
+  setVal('parcela_'+tipo, parc.toFixed(2).replace('.',','));
+  document.getElementById('out_'+tipo).textContent = fmtBRL(lib);
+  show('res_'+tipo);
+  somaTotais();
 }
 
+// Limpar seção
 function limpar(tipo){
-  document.getElementById('parcela_'+tipo).value='';
-  document.getElementById('liberado_'+tipo).value='';
-  document.getElementById('res_'+tipo).style.display='none';
+  setVal('parcela_'+tipo,''); setVal('liberado_'+tipo,'');
   document.getElementById('out_'+tipo).textContent='R$ 0,00';
-  somaTotal();
+  document.getElementById('res_'+tipo).style.display='none';
+  somaTotais();
 }
 
-/* ===== Cliente ===== */
-function limparCliente(){ document.getElementById('cli_nome').value=''; document.getElementById('cli_cpf').value=''; }
-document.getElementById('btn_limpar_cliente').addEventListener('click', limparCliente);
-document.getElementById('cli_cpf').addEventListener('input',function(){
-  let v=this.value.replace(/\D/g,''); v=v.slice(0,11);
-  if(v.length>9) this.value=v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/,'$1.$2.$3-$4');
-  else if(v.length>6) this.value=v.replace(/(\d{3})(\d{3})(\d{0,3})/,'$1.$2.$3');
-  else if(v.length>3) this.value=v.replace(/(\d{3})(\d{0,3})/,'$1.$2');
-  else this.value=v;
-});
+/* ===== Eventos botões ===== */
+document.getElementById('btn_calc_liberado_nova').addEventListener('click', ()=>calcLiberado('nova'));
+document.getElementById('btn_calc_parcela_nova').addEventListener('click', ()=>calcParcela('nova'));
+document.getElementById('btn_limpar_nova').addEventListener('click', ()=>limpar('nova'));
 
-/* ===== Resumo / WhatsApp ===== */
-function somaTotal(){
-  const n=parseNum(document.getElementById('liberado_nova').value);
-  const r=parseNum(document.getElementById('liberado_rmc').value);
-  const b=parseNum(document.getElementById('liberado_benef').value);
-  const total=n+r+b;
-  document.getElementById('out_total').textContent=fmtBRL(total);
+document.getElementById('btn_calc_liberado_rmc').addEventListener('click', ()=>calcLiberado('rmc'));
+document.getElementById('btn_calc_parcela_rmc').addEventListener('click', ()=>calcParcela('rmc'));
+document.getElementById('btn_limpar_rmc').addEventListener('click', ()=>limpar('rmc'));
 
-  const nome=(document.getElementById('cli_nome')?.value||'').trim();
-  const cpf=(document.getElementById('cli_cpf')?.value||'').trim();
-  const cab=(nome||cpf)?(Cliente: ${nome||'(sem nome)'}\nCPF: ${cpf||'(sem CPF)'}\n\n):'';
+document.getElementById('btn_calc_liberado_benef').addEventListener('click', ()=>calcLiberado('benef'));
+document.getElementById('btn_calc_parcela_benef').addEventListener('click', ()=>calcParcela('benef'));
+document.getElementById('btn_limpar_benef').addEventListener('click', ()=>limpar('benef'));
 
-  const resumo=[
-    cab,
-    '35% Empréstimo: '+fmtBRL(n),
-    '5% Cartão RMC: '+fmtBRL(r),
-    '5% Cartão Benefício: '+fmtBRL(b),
-    'TOTAL: '+fmtBRL(total)
+/* ===== Totais + Mensagem ===== */
+function somaTotais(){
+  const ln = parseNum(document.getElementById('liberado_nova').value);
+  const lr = parseNum(document.getElementById('liberado_rmc').value);
+  const lb = parseNum(document.getElementById('liberado_benef').value);
+  const pn = parseNum(document.getElementById('parcela_nova').value);
+  const pr = parseNum(document.getElementById('parcela_rmc').value);
+  const pb = parseNum(document.getElementById('parcela_benef').value);
+
+  const totalLib = ln + lr + lb;
+  const totalParc = pn + pr + pb;
+
+  document.getElementById('out_total_liberado').textContent = fmtBRL(totalLib);
+  document.getElementById('out_total_parcela').textContent = fmtBRL(totalParc);
+
+  const nome = (document.getElementById('cli_nome').value||'').trim() || '(sem nome)';
+  const cpf  = (document.getElementById('cli_cpf').value||'').trim() || '(sem CPF)';
+
+  const resumo = [
+    'Cliente: '+nome,
+    'CPF: '+cpf,
+    '',
+    '35% Empréstimo — Liberado: '+fmtBRL(ln)+' | Parcela: '+fmtBRL(pn),
+    '5% Cartão RMC — Liberado: '+fmtBRL(lr)+' | Parcela: '+fmtBRL(pr),
+    '5% Cartão Benefício — Liberado: '+fmtBRL(lb)+' | Parcela: '+fmtBRL(pb),
+    '',
+    'TOTAL LIBERADO: '+fmtBRL(totalLib),
+    'TOTAL PARCELA: '+fmtBRL(totalParc)
   ].join('\n');
 
-  document.getElementById('resumoTxt').textContent=resumo;
-  const zap='https://wa.me/?text='+encodeURIComponent('Simulação Agiliza + Promotora\n\n'+resumo);
-  document.getElementById('btnZap').href=zap;
+  document.getElementById('resumoTxt').textContent = resumo;
+  document.getElementById('btnZap').href = 'https://wa.me/?text=' + encodeURIComponent('Simulação Agiliza + Promotora\n\n' + resumo);
 }
+['liberado_nova','liberado_rmc','liberado_benef','parcela_nova','parcela_rmc','parcela_benef','cli_nome','cli_cpf']
+  .forEach(id=>{ const el=document.getElementById(id); el.addEventListener('input',somaTotais); });
 
-['coef_nova','coef_rmc','coef_benef'].forEach(id=>{
-  const el=document.getElementById(id);
-  el.addEventListener('blur',()=>sanitizeCoef(el));
-});
-['liberado_nova','liberado_rmc','liberado_benef'].forEach(id=>{
-  document.getElementById(id).addEventListener('input',somaTotal);
-});
-
-/* ===== Eventos de botões ===== */
-document.getElementById('btn_calc_liberado_nova').addEventListener('click',()=>calcLiberado('nova'));
-document.getElementById('btn_calc_parcela_nova').addEventListener('click',()=>calcParcela('nova'));
-document.getElementById('btn_limpar_nova').addEventListener('click',()=>limpar('nova'));
-
-document.getElementById('btn_calc_liberado_rmc').addEventListener('click',()=>calcLiberado('rmc'));
-document.getElementById('btn_calc_parcela_rmc').addEventListener('click',()=>calcParcela('rmc'));
-document.getElementById('btn_limpar_rmc').addEventListener('click',()=>limpar('rmc'));
-
-document.getElementById('btn_calc_liberado_benef').addEventListener('click',()=>calcLiberado('benef'));
-document.getElementById('btn_calc_parcela_benef').addEventListener('click',()=>calcParcela('benef'));
-document.getElementById('btn_limpar_benef').addEventListener('click',()=>limpar('benef'));
-
-document.getElementById('btn_copy').addEventListener('click',()=>{
-  const txt=document.getElementById('resumoTxt').textContent||'';
+document.getElementById('btn_copy').addEventListener('click', ()=>{
+  const txt = document.getElementById('resumoTxt').textContent||'';
   if(!txt){ alert('Faça uma simulação antes.'); return; }
   if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(txt).then(()=>{ alert('Mensagem copiada!'); },()=>{ alert('Não foi possível copiar automaticamente. Selecione o texto e copie.'); });
+    navigator.clipboard.writeText(txt).then(()=>{ alert('Mensagem copiada!'); },()=>{ alert('Selecione o texto e copie.'); });
   }else{
     const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
     try{ document.execCommand('copy'); alert('Mensagem copiada!'); }catch(e){ alert('Selecione o texto e copie.'); }
     ta.remove();
   }
 });
-
-/* Inicializações */
-setCoefMargemNovaPorPrazo();
-document.getElementById('prazo_nova').addEventListener('change', setCoefMargemNovaPorPrazo);
 </script>
 </body>
 </html>
