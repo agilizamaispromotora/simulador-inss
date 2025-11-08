@@ -1,369 +1,296 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Simulador INSS – v15</title>
-<meta name="theme-color" content="#1b4c9b">
+<title>Simulador Agiliza + Promotora</title>
+<meta name="theme-color" content="#ffffff">
 <style>
-  :root{ --azul:#1b4c9b; --laranja:#ff6a00; --creme:#f7f4ee; --cinza:#333333; --borda:#e9e7e2; --azul-escuro:#0f3366; }
-  *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial}
-  body{margin:0;background:var(--creme);color:var(--cinza);}
-  header{background:#fff;border-bottom:4px solid var(--azul);padding:12px 14px;position:sticky;top:0;z-index:3}
-  .t1{font-size:18px;font-weight:800;color:var(--azul)}
-  .wrap{padding:14px;max-width:980px;margin:0 auto;}
-  .card{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:14px 12px;margin:14px 0}
-  .title{display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .pct{font-weight:800;color:#fff;font-size:12px;background:#1b4c9b;padding:4px 8px;border-radius:999px}
+  :root{--azul:#1b4c9b;--laranja:#ff6a00;--creme:#f7f4ee;--cinza:#333;--borda:#e9e7e2;--azul-escuro:#133a75;--verde:#1a7f37}
+  *{box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji"}
+  html,body{height:100%} body{margin:0;background:var(--creme);color:var(--cinza)}
+  header{background:#fff;color:var(--azul);padding:22px 16px;border-bottom:1px solid var(--borda)}
+  .headerInner{display:flex;gap:10px;align-items:center;justify-content:center;flex-direction:column}
+  h1{font-size:24px;margin:8px 0 0;line-height:1.2;font-weight:800;text-align:center;color:var(--azul)}
+  .wrap{padding:14px;max-width:880px;margin:0 auto}
+  .card{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:14px 12px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .card h2{font-size:16px;margin:0 0 10px;color:var(--azul-escuro)}
   .row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}
   .col{flex:1;min-width:220px}
   label{display:block;font-size:12px;margin:6px 2px}
-  input, select, textarea{width:100%;padding:13px 12px;border:1px solid var(--borda);border-radius:10px;font-size:16px;background:#fff}
-  input:focus, select:focus, textarea:focus{outline:2px solid rgba(27,76,155,.15);}
+  input,select{width:100%;padding:13px 12px;border:1px solid var(--borda);border-radius:10px;font-size:16px;background:#fff}
+  input:focus,select:focus{outline:2px solid rgba(27,76,155,.15)}
+  .hint{font-size:12px;color:#666;margin-top:6px}
   .btns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-  button{padding:12px;border:0;border-radius:10px;font-weight:800;cursor:pointer}
-  .action{background:var(--azul);color:#fff}
-  .secondary{background:#fff;color:var(--azul);border:1px solid var(--borda)}
-  .result{padding:12px;border:1px dashed var(--borda);border-radius:10px;background:#faf9f7;margin-top:10px}
-  .result .line{display:flex;justify-content:space-between;align-items:center;margin:4px 0}
-  .result .line span{font-size:12px;color:#666}
-  .result .line b{font-size:16px;color:var(--azul-escuro)}
-  .chk{display:flex;gap:8px;align-items:center;margin-top:4px}
-  .totals{position:sticky;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--azul);padding:12px 14px;z-index:2}
-  .totals .line{display:flex;justify-content:space-between;align-items:center}
-  .totals .line b{font-size:18px;color:var(--azul-escuro)}
-  .msg{background:#fff;border:1px solid var(--borda);border-radius:14px;padding:14px 12px;margin:14px 0}
-  .msg-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-  .tip{font-size:12px;color:#666;margin-top:6px}
-  .note{font-size:12px;color:#8a6d3b;background:#fff6e5;border:1px solid #ffe2ad;padding:8px;border-radius:10px;margin-top:8px}
+  button.action{flex:1;padding:12px;border:0;border-radius:10px;background:var(--azul);color:#fff;font-weight:800;cursor:pointer}
+  button.secondary{flex:1;padding:12px;border:1px solid var(--borda);border-radius:10px;background:#fff;color:var(--azul);font-weight:800;cursor:pointer}
+  .result{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px dashed var(--borda);border-radius:10px;background:#faf9f7;margin-top:10px}
+  .result b{font-size:18px;color:var(--azul-escuro)} .result.troco b{color:var(--verde)}
+  .badge{display:inline-block;background:var(--laranja);color:#fff;padding:6px 10px;border-radius:999px;font-weight:800;font-size:12px}
+  .split{height:1px;background:var(--borda);margin:12px 0}
+  .small{font-size:11px;color:#666}
+  .title{display:flex;justify-content:space-between;gap:6px;align-items:center}
+  .pct{font-weight:800;color:var(--azul-escuro);font-size:12px;background:#eef3fb;border:1px solid #dbe6fb;padding:4px 8px;border-radius:999px}
+  .total{position:sticky;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--azul);padding:12px 14px;box-shadow:0 -6px 18px rgba(0,0,0,.06)}
+  .total .line{display:flex;justify-content:space-between;align-items:center}
+  .total .line b{font-size:20px;color:var(--azul-escuro)}
+  .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid var(--borda);font-weight:700;color:var(--azul)}
+  .topbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+  .copy{font-size:12px;color:#666;margin-top:6px;white-space:pre-line}
 </style>
 </head>
 <body>
-<header>
-  <div class="t1">Simulador INSS</div>
-</header>
-
-<div class="wrap">
-
-  <!-- Dados do Cliente -->
-  <div class="card">
-    <div class="title"><h2 style="margin:0;font-size:16px">Dados do Cliente</h2></div>
-    <div class="row">
-      <div class="col">
-        <label for="nome">Cliente</label>
-        <input id="nome" placeholder="Nome completo">
-      </div>
-      <div class="col">
-        <label for="cpf">CPF</label>
-        <input id="cpf" placeholder="000.000.000-00" oninput="formatCPF(this)">
-      </div>
-      <div class="col">
-        <label for="primeira">1ª parcela para</label>
-        <select id="primeira">
-          <option>Janeiro</option><option>Fevereiro</option><option>Março</option><option>Abril</option>
-          <option>Maio</option><option>Junho</option><option>Julho</option><option>Agosto</option>
-          <option>Setembro</option><option>Outubro</option><option>Novembro</option><option selected>Dezembro</option>
-        </select>
-      </div>
+  <header>
+    <div class="headerInner">
+      <h1>Simulador Agiliza + Promotora</h1>
     </div>
+  </header>
+
+  <div class="wrap">
+    <!-- Dados do Cliente -->
+    <section class="card">
+      <h2 class="title"><span class="badge">0</span> Dados do Cliente</h2>
+      <div class="row">
+        <div class="col"><label for="cli_nome">Nome</label><input id="cli_nome" type="text" placeholder="Ex.: Maria Silva"></div>
+        <div class="col"><label for="cli_cpf">CPF</label><input id="cli_cpf" type="text" inputmode="numeric" placeholder="000.000.000-00" maxlength="14"></div>
+      </div>
+      <div class="btns"><button class="secondary" onclick="limparCliente()">Limpar Cliente</button></div>
+    </section>
+
+    <!-- 35% – Margem Nova -->
+    <section class="card" id="nova">
+      <div class="title"><h2><span class="badge">1</span> 35% – Margem Nova (Empréstimo)</h2><span class="pct">35%</span></div>
+      <div class="row">
+        <div class="col">
+          <label for="prazo_nova">Prazo (meses)</label>
+          <select id="prazo_nova">
+            <option value="96" selected>96</option>
+            <option value="84">84</option>
+            <option value="72">72</option>
+            <option value="60">60</option>
+            <option value="48">48</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="coef_nova">Coeficiente</label>
+          <input id="coef_nova" type="text" inputmode="decimal" placeholder="Ex.: 0,023701" value="0,023701">
+        </div>
+      </div>
+      <div class="split"></div>
+      <div class="row">
+        <div class="col"><label for="parcela_nova">Parcela (R$)</label><input id="parcela_nova" type="text" inputmode="decimal" placeholder="Ex.: 350,00"></div>
+        <div class="col"><label for="liberado_nova">Valor Liberado (R$)</label><input id="liberado_nova" type="text" inputmode="decimal" placeholder="Ex.: 10.000,00"></div>
+      </div>
+      <div class="btns">
+        <button class="action" onclick="calcLiberado('nova')">Calcular Liberado</button>
+        <button class="action" onclick="calcParcela('nova')">Calcular Parcela</button>
+        <button class="secondary" onclick="limpar('nova')">Limpar</button>
+      </div>
+      <div class="result" id="res_nova" style="display:none"><span class="small">Liberado (35%)</span><b id="out_nova">R$ 0,00</b></div>
+    </section>
+
+    <!-- 5% – Cartão RMC (Saque) -->
+    <section class="card" id="rmc">
+      <div class="title"><h2><span class="badge">2</span> 5% – Cartão RMC (Saque)</h2><span class="pct">5%</span></div>
+      <div class="row">
+        <div class="col"><label for="coef_rmc">Coeficiente</label><input id="coef_rmc" type="text" inputmode="decimal" placeholder="Ex.: 0,029809" value="0,029809"></div>
+      </div>
+      <div class="split"></div>
+      <div class="row">
+        <div class="col"><label for="parcela_rmc">Parcela (R$)</label><input id="parcela_rmc" type="text" inputmode="decimal" placeholder="Ex.: 100,00"></div>
+        <div class="col"><label for="liberado_rmc">Valor Liberado (R$)</label><input id="liberado_rmc" type="text" inputmode="decimal" placeholder="Ex.: 3.500,00"></div>
+      </div>
+      <div class="btns">
+        <button class="action" onclick="calcLiberado('rmc')">Calcular Liberado</button>
+        <button class="action" onclick="calcParcela('rmc')">Calcular Parcela</button>
+        <button class="secondary" onclick="limpar('rmc')">Limpar</button>
+      </div>
+      <div class="result" id="res_rmc" style="display:none"><span class="small">Liberado (RMC)</span><b id="out_rmc">R$ 0,00</b></div>
+    </section>
+
+    <!-- 5% – Cartão Benefício (Compras) -->
+    <section class="card" id="beneficio">
+      <div class="title"><h2><span class="badge">3</span> 5% – Cartão Benefício (Compras)</h2><span class="pct">5%</span></div>
+      <div class="row">
+        <div class="col"><label for="coef_benef">Coeficiente</label><input id="coef_benef" type="text" inputmode="decimal" placeholder="Ex.: 0,029809" value="0,029809"></div>
+      </div>
+      <div class="split"></div>
+      <div class="row">
+        <div class="col"><label for="parcela_benef">Parcela (R$)</label><input id="parcela_benef" type="text" inputmode="decimal" placeholder="Ex.: 100,00"></div>
+        <div class="col"><label for="liberado_benef">Valor Liberado (R$)</label><input id="liberado_benef" type="text" inputmode="decimal" placeholder="Ex.: 3.500,00"></div>
+      </div>
+      <div class="btns">
+        <button class="action" onclick="calcLiberado('benef')">Calcular Liberado</button>
+        <button class="action" onclick="calcParcela('benef')">Calcular Parcela</button>
+        <button class="secondary" onclick="limpar('benef')">Limpar</button>
+      </div>
+      <div class="result" id="res_benef" style="display:none"><span class="small">Liberado (Cartão Benefício)</span><b id="out_benef">R$ 0,00</b></div>
+    </section>
+
+    <!-- Portabilidade + Refin -->
+    <section class="card" id="portrefin">
+      <div class="title"><h2><span class="badge">4</span> Portabilidade + Refin</h2><span class="pct">Cálculo do troco</span></div>
+
+      <div class="title"><h2 style="font-size:14px;margin:0">Contrato de Origem</h2><span class="pct">Informe os dados do contrato atual</span></div>
+      <div class="row">
+        <div class="col"><label for="banco_origem">Banco de origem</label><input id="banco_origem" type="text" placeholder="Ex.: Banco X"></div>
+        <div class="col"><label for="parcela_origem">Parcela atual (R$)</label><input id="parcela_origem" type="text" inputmode="decimal" placeholder="Ex.: 389,90"></div>
+      </div>
+      <div class="row">
+        <div class="col"><label for="prazo_total">Prazo total (meses)</label><input id="prazo_total" type="number" inputmode="numeric" placeholder="Ex.: 84"></div>
+        <div class="col"><label for="pagas_origem">Parcelas pagas</label><input id="pagas_origem" type="number" inputmode="numeric" placeholder="Ex.: 36"></div>
+        <div class="col"><label for="restantes_origem">Parcelas restantes</label><input id="restantes_origem" type="number" inputmode="numeric" placeholder="Ex.: 48"></div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label for="saldo_port">Saldo devedor (R$)</label>
+          <input id="saldo_port" type="text" inputmode="decimal" placeholder="Informe o saldo exato do sistema (preferencial)">
+          <p class="hint">Se não informar o saldo, o simulador usa a <u>estimativa</u>: <i>Parcela atual × Parcelas restantes</i>.</p>
+        </div>
+      </div>
+
+      <div class="split"></div>
+
+      <div class="title"><h2 style="font-size:14px;margin:0">Refin da Portabilidade (Novo Contrato)</h2><span class="pct">Valor liberado & Troco</span></div>
+      <div class="row">
+        <div class="col"><label for="banco_destino">Banco de destino</label><input id="banco_destino" type="text" placeholder="Ex.: Banco Y"></div>
+        <div class="col"><label for="coef_port">Coeficiente (novo banco)</label><input id="coef_port" type="text" inputmode="decimal" placeholder="Ex.: 0,023694"></div>
+      </div>
+      <div class="row">
+        <div class="col"><label for="parcela_port">Nova parcela (R$)</label><input id="parcela_port" type="text" inputmode="decimal" placeholder="Ex.: 552,00"></div>
+        <div class="col"><label for="prazo_novo">Novo prazo (meses)</label><input id="prazo_novo" type="number" inputmode="numeric" placeholder="Ex.: 96"></div>
+      </div>
+      <div class="btns">
+        <button class="action" onclick="calcPort()">Calcular troco</button>
+        <button class="secondary" onclick="limparPort()">Limpar</button>
+      </div>
+      <div class="result" id="res_port" style="display:none"><span class="small">Valor liberado (novo contrato)</span><b id="out_contrato_port">R$ 0,00</b></div>
+      <div class="result troco" id="res_troco" style="display:none"><span class="small">Troco (valor que entra para o cliente)</span><b id="out_troco_port">R$ 0,00</b></div>
+      <p class="hint" id="aviso_estimativa" style="display:none">* Troco calculado com <b>estimativa</b> de saldo (parcela × parcelas restantes). Para precisão, informe o <b>Saldo devedor</b> do sistema.</p>
+    </section>
   </div>
 
-  <!-- Empréstimo 35% -->
-  <div class="card">
-    <div class="title"><h2 style="margin:0;font-size:16px">35% – Margem Nova (Empréstimo)</h2><span class="pct">35%</span></div>
-    <div class="chk"><input id="incl_emp" type="checkbox" checked onclick="soma()"> <label for="incl_emp">Incluir</label></div>
-    <div class="row">
-      <div class="col">
-        <label for="coef_emp">Coeficiente</label>
-        <input id="coef_emp" inputmode="decimal" value="0,023413">
-      </div>
-      <div class="col">
-        <label for="prazo_emp">Prazo</label>
-        <select id="prazo_emp"><option selected>96x</option><option>84x</option><option>72x</option><option>60x</option></select>
-      </div>
-      <div class="col">
-        <label for="banco_emp">Banco</label>
-        <input id="banco_emp" placeholder="Facta" value="Facta">
-      </div>
-    </div>
-    <div class="row" style="margin-top:8px">
-      <div class="col">
-        <label for="parc_emp">Parcela (R$)</label>
-        <input id="parc_emp" inputmode="decimal" placeholder="531,30" oninput="soma()">
-      </div>
-      <div class="col">
-        <label for="lib_emp">Valor Liberado (R$) <small>(líquido)</small></label>
-        <input id="lib_emp" inputmode="decimal" placeholder="22.192,52" oninput="soma()">
-      </div>
-    </div>
-    <div class="btns">
-      <button class="action" onclick="calcEmpLiberado()">Parcela → Liberado</button>
-      <button class="action" onclick="calcEmpParcela()">Liberado → Parcela</button>
-      <button class="secondary" onclick="limparEmp()">Limpar</button>
-    </div>
-    <div class="note">Nesta margem, o cálculo já <b>desconta R$ 500,00 de seguro</b> do valor liberado líquido.</div>
+  <div class="total">
+    <div class="line"><span class="pill">Total que entra para o cliente</span><b id="out_total">R$ 0,00</b></div>
+    <div class="topbar"><button class="secondary" onclick="copyResumo()">Copiar mensagem</button><a id="btnZap" class="secondary" href="#" target="_blank" rel="noopener">Enviar pelo WhatsApp</a></div>
+    <p class="copy" id="resumoTxt"></p>
   </div>
-
-  <!-- Cartão RMC -->
-  <div class="card">
-    <div class="title"><h2 style="margin:0;font-size:16px">5% – Cartão RMC (Saque)</h2><span class="pct">5%</span></div>
-    <div class="chk"><input id="incl_rmc" type="checkbox" checked onclick="soma()"> <label for="incl_rmc">Incluir</label></div>
-    <div class="row">
-      <div class="col">
-        <label for="coef_rmc">Coeficiente</label>
-        <input id="coef_rmc" inputmode="decimal" value="0,03127">
-      </div>
-      <div class="col">
-        <label for="prazo_rmc">Prazo</label>
-        <select id="prazo_rmc"><option selected>96x</option><option>84x</option><option>72x</option><option>60x</option></select>
-      </div>
-      <div class="col">
-        <label for="banco_rmc">Banco</label>
-        <input id="banco_rmc" placeholder="BMG" value="BMG">
-      </div>
-    </div>
-    <div class="row" style="margin-top:8px">
-      <div class="col">
-        <label for="parc_rmc">Parcela informada (R$)</label>
-        <input id="parc_rmc" inputmode="decimal" placeholder="53,13" oninput="soma()">
-      </div>
-      <div class="col">
-        <label for="lib_rmc">Valor Liberado (70%)</label>
-        <input id="lib_rmc" inputmode="decimal" placeholder="1.699,07" oninput="soma()">
-      </div>
-    </div>
-    <div class="btns">
-      <button class="action" onclick="calcCartaoFromParcela('rmc')">Parcela → Limite/70%</button>
-      <button class="action" onclick="calcCartaoFromLiberado('rmc')">Liberado(70%) → Parcela</button>
-      <button class="secondary" onclick="limparCartao('rmc')">Limpar</button>
-    </div>
-  </div>
-
-  <!-- Cartão Benefício -->
-  <div class="card">
-    <div class="title"><h2 style="margin:0;font-size:16px">5% – Cartão Benefício (Compras)</h2><span class="pct">5%</span></div>
-    <div class="chk"><input id="incl_ben" type="checkbox" checked onclick="soma()"> <label for="incl_ben">Incluir</label></div>
-    <div class="row">
-      <div class="col">
-        <label for="coef_ben">Coeficiente</label>
-        <input id="coef_ben" inputmode="decimal" value="0,03127">
-      </div>
-      <div class="col">
-        <label for="prazo_ben">Prazo</label>
-        <select id="prazo_ben"><option selected>96x</option><option>84x</option><option>72x</option><option>60x</option></select>
-      </div>
-      <div class="col">
-        <label for="banco_ben">Banco</label>
-        <input id="banco_ben" placeholder="BMG" value="BMG">
-      </div>
-    </div>
-    <div class="row" style="margin-top:8px">
-      <div class="col">
-        <label for="parc_ben">Parcela informada (R$)</label>
-        <input id="parc_ben" inputmode="decimal" placeholder="53,13" oninput="soma()">
-      </div>
-      <div class="col">
-        <label for="lib_ben">Valor Liberado (70%)</label>
-        <input id="lib_ben" inputmode="decimal" placeholder="1.699,07" oninput="soma()">
-      </div>
-    </div>
-    <div class="btns">
-      <button class="action" onclick="calcCartaoFromParcela('ben')">Parcela → Limite/70%</button>
-      <button class="action" onclick="calcCartaoFromLiberado('ben')">Liberado(70%) → Parcela</button>
-      <button class="secondary" onclick="limparCartao('ben')">Limpar</button>
-    </div>
-  </div>
-
-  <!-- Totais -->
-  <div class="totals">
-    <div class="line"><span><b>Total Liberado</b></span><b id="out_total_lib">R$ 0,00</b></div>
-    <div class="line"><span><b>Total das Parcelas (reais)</b></span><b id="out_total_parc">R$ 0,00</b></div>
-  </div>
-
-  <!-- Mensagem pronta -->
-  <div class="msg">
-    <h2 style="margin:0 0 10px;font-size:16px">Gerar mensagem pronta</h2>
-    <textarea id="mensagem" rows="10" placeholder="Clique em 'Gerar mensagem' para montar o texto automaticamente."></textarea>
-    <div class="msg-actions">
-      <button class="action" onclick="gerarMensagem()">Gerar mensagem</button>
-      <button class="secondary" onclick="copiar()">Copiar</button>
-      <button class="secondary" onclick="whats()">Abrir WhatsApp</button>
-    </div>
-    <div class="tip">Título fixo: <b>💰 Simulação de Crédito</b>. O texto inclui Cliente, CPF, cada margem marcada, totais e o mês da 1ª parcela.</div>
-  </div>
-
-</div>
 
 <script>
-// ===== Configurações =====
-const SEGURO_FIXO = 500; // desconto apenas na Margem Nova (35%)
+/* ===== Util ===== */
+function parseNum(v){ if(!v) return 0; v=(''+v).trim().replace(/\\./g,'').replace(/,/g,'.'); return Number(v)||0; }
+function fmtBRL(n){ return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
 
-// ===== Utilidades =====
-function num(v){
-  if(v==null) return 0;
-  v=(''+v).trim();
-  if(!v) return 0;
-  v=v.replace(/\\s+/g,'');
-  if(v.indexOf('.')>-1 && v.indexOf(',')>-1){
-    if(v.lastIndexOf(',')>v.lastIndexOf('.')){ v=v.replace(/\\./g,'').replace(',', '.'); }
-    else { v=v.replace(/,/g,''); }
-  }else if(v.indexOf(',')>-1){
-    v=v.replace(',', '.');
+/* ===== Cliente ===== */
+function limparCliente(){ document.getElementById('cli_nome').value=''; document.getElementById('cli_cpf').value=''; }
+document.getElementById('cli_cpf').addEventListener('input',function(){ let v=this.value.replace(/\\D/g,''); v=v.slice(0,11);
+  if(v.length>9) this.value=v.replace(/(\\d{3})(\\d{3})(\\d{3})(\\d{0,2})/,'$1.$2.$3-$4');
+  else if(v.length>6) this.value=v.replace(/(\\d{3})(\\d{3})(\\d{0,3})/,'$1.$2.$3');
+  else if(v.length>3) this.value=v.replace(/(\\d{3})(\\d{0,3})/,'$1.$2'); else this.value=v; });
+
+/* ===== Coef Margem Nova por Prazo (auto) ===== */
+const TABELA_COEF_NOVA = { 96:0.023701, 84:0.024954, 72:0.026721, 60:0.029316, 48:0.033366 };
+function setCoefMargemNovaPorPrazo(){ const p=Number(document.getElementById('prazo_nova').value);
+  const c=TABELA_COEF_NOVA[p]; if(typeof c==='number'){ document.getElementById('coef_nova').value=c.toString().replace('.',','); } }
+document.getElementById('prazo_nova').addEventListener('change',setCoefMargemNovaPorPrazo);
+setCoefMargemNovaPorPrazo();
+
+/* ===== Empréstimo / Cartões ===== */
+function calcLiberado(tipo){
+  const coef=parseNum(document.getElementById('coef_'+tipo).value);
+  const parcela=parseNum(document.getElementById('parcela_'+tipo).value);
+  if(coef<=0||parcela<=0){ alert('Preencha coeficiente e parcela.'); return; }
+  const fator=(tipo==='rmc'||tipo==='benef')?0.70:1.0;
+  const liberado=(parcela*fator)/coef; // sem desconto de seguro
+  document.getElementById('liberado_'+tipo).value=liberado.toFixed(2).replace('.',',');
+  document.getElementById('out_'+tipo).textContent=fmtBRL(liberado);
+  document.getElementById('res_'+tipo).style.display='flex';
+  somaTotal();
+}
+function calcParcela(tipo){
+  const coef=parseNum(document.getElementById('coef_'+tipo).value);
+  const liberado=parseNum(document.getElementById('liberado_'+tipo).value);
+  if(coef<=0||liberado<=0){ alert('Preencha coeficiente e valor liberado.'); return; }
+  const fator=(tipo==='rmc'||tipo==='benef')?0.70:1.0;
+  const parcela=(liberado*coef)/fator; // sem +500
+  document.getElementById('parcela_'+tipo).value=parcela.toFixed(2).replace('.',',');
+  document.getElementById('out_'+tipo).textContent=fmtBRL(liberado);
+  document.getElementById('res_'+tipo).style.display='flex';
+  somaTotal();
+}
+function limpar(tipo){
+  document.getElementById('parcela_'+tipo).value='';
+  document.getElementById('liberado_'+tipo).value='';
+  document.getElementById('res_'+tipo).style.display='none';
+  document.getElementById('out_'+tipo).textContent='R$ 0,00';
+  somaTotal();
+}
+
+/* ===== Port + Refin ===== */
+function calcPort(){
+  const coef=parseNum(document.getElementById('coef_port').value);
+  const parcNova=parseNum(document.getElementById('parcela_port').value);
+  if(coef<=0||parcNova<=0){ alert('Preencha coeficiente e nova parcela.'); return; }
+  const parcOrig=parseNum(document.getElementById('parcela_origem').value);
+  const restOrig=parseNum(document.getElementById('restantes_origem').value);
+  let saldo=parseNum(document.getElementById('saldo_port').value);
+  let estimativa=false;
+  if(saldo<=0){
+    if(parcOrig>0&&restOrig>0){ saldo=parcOrig*restOrig; estimativa=true; }
+    else { alert('Informe o Saldo devedor ou (Parcela atual e Parcelas restantes).'); return; }
   }
-  var n=Number(v);
-  return isNaN(n)?0:n;
+  const liberado=parcNova/coef;
+  const troco=liberado-saldo;
+  document.getElementById('out_contrato_port').textContent=fmtBRL(liberado);
+  document.getElementById('out_troco_port').textContent=fmtBRL(troco);
+  document.getElementById('res_port').style.display='flex';
+  document.getElementById('res_troco').style.display='flex';
+  document.getElementById('aviso_estimativa').style.display=estimativa?'block':'none';
+  somaTotal();
 }
-function brl(n){ try{return n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}catch(e){return 'R$ '+(Math.round(n*100)/100).toFixed(2).replace('.',',');} }
-function fmt(n){ return (Math.round(n*100)/100).toFixed(2).replace('.',','); }
-function formatCPF(inp){
-  let v=inp.value.replace(/\\D/g,'');
-  v=v.slice(0,11);
-  if(v.length>9)      v=v.replace(/(\\d{3})(\\d{3})(\\d{3})(\\d{1,2})/,'$1.$2.$3-$4');
-  else if(v.length>6) v=v.replace(/(\\d{3})(\\d{3})(\\d{1,3})/,'$1.$2.$3');
-  else if(v.length>3) v=v.replace(/(\\d{3})(\\d{1,3})/,'$1.$2');
-  inp.value=v;
-}
-
-// ===== Empréstimo (35%) – com SEGURO_FIXO =====
-function calcEmpLiberado(){
-  var c=num(document.getElementById('coef_emp').value);
-  var p=num(document.getElementById('parc_emp').value);
-  if(c<=0||p<=0){ alert('Preencha coeficiente e parcela.'); return; }
-  var L_bruto = p/c;
-  var L_liquido = L_bruto - SEGURO_FIXO;
-  if (L_liquido < 0) L_liquido = 0;
-  document.getElementById('lib_emp').value=fmt(L_liquido);
-  soma();
-}
-function calcEmpParcela(){
-  var c=num(document.getElementById('coef_emp').value);
-  var L_liquido=num(document.getElementById('lib_emp').value);
-  if(c<=0||L_liquido<=0){ alert('Preencha coeficiente e valor liberado (líquido).'); return; }
-  var L_bruto = L_liquido + SEGURO_FIXO;
-  var p=L_bruto*c;
-  document.getElementById('parc_emp').value=fmt(p);
-  soma();
-}
-function limparEmp(){
-  document.getElementById('parc_emp').value='';
-  document.getElementById('lib_emp').value='';
-  soma();
+function limparPort(){
+  ['banco_origem','parcela_origem','prazo_total','pagas_origem','restantes_origem','saldo_port','banco_destino','coef_port','parcela_port','prazo_novo'].forEach(id=>{const el=document.getElementById(id); if(el) el.value='';});
+  document.getElementById('res_port').style.display='none';
+  document.getElementById('res_troco').style.display='none';
+  document.getElementById('out_contrato_port').textContent='R$ 0,00';
+  document.getElementById('out_troco_port').textContent='R$ 0,00';
+  document.getElementById('aviso_estimativa').style.display='none';
+  somaTotal();
 }
 
-// ===== Cartões (70%) =====
-function calcCartaoFromParcela(s){
-  var c=num(document.getElementById('coef_'+s).value);
-  var p=num(document.getElementById('parc_'+s).value);
-  if(c<=0||p<=0){ alert('Preencha coeficiente e parcela informada.'); return; }
-  var lim=p/c, disp=lim*0.70;
-  document.getElementById('lib_'+s).value=fmt(disp);
-  soma();
-}
-function calcCartaoFromLiberado(s){
-  var c=num(document.getElementById('coef_'+s).value);
-  var L70=num(document.getElementById('lib_'+s).value);
-  if(c<=0||L70<=0){ alert('Preencha coeficiente e valor liberado (70%).'); return; }
-  var lim=L70/0.70, p=lim*c;
-  document.getElementById('parc_'+s).value=fmt(p);
-  soma();
-}
-function limparCartao(s){
-  document.getElementById('parc_'+s).value='';
-  document.getElementById('lib_'+s).value='';
-  soma();
-}
+/* ===== Resumo / WhatsApp ===== */
+function somaTotal(){
+  const n=parseNum(document.getElementById('liberado_nova').value);
+  const r=parseNum(document.getElementById('liberado_rmc').value);
+  const b=parseNum(document.getElementById('liberado_benef').value);
+  const trocoTxt=(document.getElementById('out_troco_port').textContent||'').replace(/[^\\d,\\.-]/g,'');
+  const ptroco=parseNum(trocoTxt);
+  const total=n+r+b+ptroco;
+  document.getElementById('out_total').textContent=fmtBRL(total);
 
-// ===== Totais =====
-function soma(){
-  var totLib = 0;
-  if(document.getElementById('incl_emp').checked)  totLib += num(document.getElementById('lib_emp').value); // já líquido (após -500)
-  if(document.getElementById('incl_rmc').checked)  totLib += num(document.getElementById('lib_rmc').value);
-  if(document.getElementById('incl_ben').checked)  totLib += num(document.getElementById('lib_ben').value);
-  document.getElementById('out_total_lib').textContent = brl(totLib);
+  const nome=(document.getElementById('cli_nome')?.value||'').trim();
+  const cpf=(document.getElementById('cli_cpf')?.value||'').trim();
+  const cab=(nome||cpf)?(Cliente: ${nome||'(sem nome)'}\\nCPF: ${cpf||'(sem CPF)'}\\n\\n):'';
 
-  var totParc = 0;
-  if(document.getElementById('incl_emp').checked){
-    var pEmp = num(document.getElementById('parc_emp').value);
-    if(pEmp===0){
-      var Lliq=num(document.getElementById('lib_emp').value), cEmp=num(document.getElementById('coef_emp').value);
-      if(Lliq>0 && cEmp>0){ var Lbru=Lliq + SEGURO_FIXO; pEmp=Lbru*cEmp; }
-    }
-    totParc += pEmp;
+  const resumo=[cab,'35% Empréstimo: '+fmtBRL(n),'5% Cartão RMC: '+fmtBRL(r),'5% Cartão Benefício: '+fmtBRL(b),'Troco (Refin): '+(document.getElementById('out_troco_port').textContent||'R$ 0,00'),'TOTAL: '+fmtBRL(total)].join('\\n');
+
+  document.getElementById('resumoTxt').textContent=resumo;
+  const zap='https://wa.me/?text='+encodeURIComponent('Simulação Agiliza + Promotora\\n\\n'+resumo);
+  document.getElementById('btnZap').href=zap;
+}
+function copyResumo(){
+  const txt=document.getElementById('resumoTxt').textContent||'';
+  if(!txt){ alert('Faça uma simulação antes.'); return; }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(()=>alert('Mensagem copiada!'),()=>alert('Selecione o texto e copie.'));
+  }else{
+    const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); alert('Mensagem copiada!'); }catch(e){ alert('Selecione o texto e copie.'); }
+    ta.remove();
   }
-  ['rmc','ben'].forEach(function(s){
-    if(document.getElementById('incl_'+s).checked){
-      var p=num(document.getElementById('parc_'+s).value);
-      if(p===0){
-        var L70=num(document.getElementById('lib_'+s).value), c=num(document.getElementById('coef_'+s).value);
-        if(L70>0&&c>0){ var lim=L70/0.70; p=lim*c; }
-      }
-      totParc += p*0.70;
-    }
-  });
-  document.getElementById('out_total_parc').textContent = brl(totParc);
 }
-
-// ===== Mensagem pronta =====
-function gerarMensagem(){
-  soma();
-  const nome = (document.getElementById('nome').value||'').trim();
-  const cpf  = (document.getElementById('cpf').value||'').trim();
-  const primeira = document.getElementById('primeira').value;
-
-  const linhas = [];
-  linhas.push('**💰 Simulação de Crédito**','');
-  linhas.push('Cliente: ' + (nome? nome : '—'));
-  linhas.push('CPF: ' + (cpf? cpf : '—'), '');
-
-  if(document.getElementById('incl_emp').checked){
-    const p = num(document.getElementById('parc_emp').value);
-    const Lliq = num(document.getElementById('lib_emp').value);
-    const prazo = document.getElementById('prazo_emp').value;
-    const banco = (document.getElementById('banco_emp').value||'').trim();
-    if(p>0 || Lliq>0){
-      const c = num(document.getElementById('coef_emp').value);
-      const useP = p>0?p:((Lliq + SEGURO_FIXO) * c);
-      linhas.push('Parcela *R$ ' + fmt(useP) + '* que libera *R$ ' + fmt(Lliq) + '* ' + prazo + (banco? ' ' + banco : ''));
-    }
-  }
-  if(document.getElementById('incl_ben').checked){
-    const p = num(document.getElementById('parc_ben').value);
-    const L = num(document.getElementById('lib_ben').value);
-    const prazo = document.getElementById('prazo_ben').value;
-    const banco = (document.getElementById('banco_ben').value||'').trim();
-    if(p>0 || L>0){
-      const useP = (p>0?p:((L/0.70)*num(document.getElementById('coef_ben').value))) * 0.70;
-      linhas.push('Cartão Benefício parcela *R$ ' + fmt(useP) + '* que libera *R$ ' + fmt(L) + '* ' + prazo + (banco? ' ' + banco : ''));
-    }
-  }
-  if(document.getElementById('incl_rmc').checked){
-    const p = num(document.getElementById('parc_rmc').value);
-    const L = num(document.getElementById('lib_rmc').value);
-    const prazo = document.getElementById('prazo_rmc').value;
-    const banco = (document.getElementById('banco_rmc').value||'').trim();
-    if(p>0 || L>0){
-      const useP = (p>0?p:((L/0.70)*num(document.getElementById('coef_rmc').value))) * 0.70;
-      linhas.push('Cartão RMC parcela *R$ ' + fmt(useP) + '* que libera *R$ ' + fmt(L) + '* ' + prazo + (banco? ' ' + banco : ''));
-    }
-  }
-
-  linhas.push('', 'Valor total liberado *' + document.getElementById('out_total_lib').textContent + '*');
-  linhas.push('Valor das parcelas *' + document.getElementById('out_total_parc').textContent + '*', '');
-  linhas.push('*1ª parcela para ' + primeira + '*');
-
-  document.getElementById('mensagem').value = linhas.join('\n');
-}
-function copiar(){
-  const ta = document.getElementById('mensagem');
-  ta.select(); ta.setSelectionRange(0, 99999);
-  document.execCommand('copy');
-  alert('Mensagem copiada!');
-}
-function whats(){
-  const txt = encodeURIComponent(document.getElementById('mensagem').value || '');
-  window.location.href = 'https://wa.me/?text=' + txt;
-}
+/* atualiza total ao digitar liberados */
+['liberado_nova','liberado_rmc','liberado_benef'].forEach(id=>{ const el=document.getElementById(id); if(el) el.addEventListener('input',somaTotal); });
 </script>
 </body>
 </html>
