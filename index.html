@@ -534,21 +534,29 @@
       const beneficio = document.getElementById('beneficio').value.trim() || 'Aposentadoria';
       const primeiraParcela = document.getElementById('primeiraParcela').value.trim();
 
-      let msg = `🧾 SIMULAÇÃO\n\n`;
-      msg += `*Cliente: ${cliente}*\n`;
-      msg += `CPF: ${cpf}\n`;
-      msg += `Tipo de Benefício: ${beneficio}\n`;
+      let msg = `🧾 SIMULAÇÃO
+
+`;
+      msg += `*Cliente: ${cliente}*
+`;
+      msg += `CPF: ${cpf}
+`;
+      msg += `Tipo de Benefício: ${beneficio}
+`;
       if (primeiraParcela) {
-        msg += `Primeira parcela para: ${primeiraParcela}\n`;
+        msg += `Primeira parcela para: ${primeiraParcela}
+`;
       }
-      msg += `\n`;
+      msg += `
+`;
 
       const novoParcela = parseBr(document.getElementById('novoParcela').value);
       const novoValor = parseBr(document.getElementById('novoValor').value);
       const novoPrazo = document.getElementById('novoPrazo').value.trim();
 
       if (novoParcela > 0 && novoValor > 0) {
-        msg += `Margem Nova — Parcela: ${money(novoParcela)} que libera ${money(novoValor)} em ${novoPrazo}\n`;
+        msg += `Margem Nova — Parcela: ${money(novoParcela)} que libera ${money(novoValor)} em ${novoPrazo}
+`;
       }
 
       const rmcParcela = parseBr(document.getElementById('rmcParcela70').value);
@@ -556,7 +564,8 @@
       const rmcPrazo = document.getElementById('rmcPrazo').value.trim();
 
       if (rmcParcela > 0 && rmcValor > 0) {
-        msg += `Cartão RMC — Parcela: ${money(rmcParcela)} que libera ${money(rmcValor)} em ${rmcPrazo}\n`;
+        msg += `Cartão RMC — Parcela: ${money(rmcParcela)} que libera ${money(rmcValor)} em ${rmcPrazo}
+`;
       }
 
       const benefParcela = parseBr(document.getElementById('benefParcela70').value);
@@ -564,11 +573,12 @@
       const benefPrazo = document.getElementById('benefPrazo').value.trim();
 
       if (benefParcela > 0 && benefValor > 0) {
-        msg += `Cartão Benefício — Parcela: ${money(benefParcela)} que libera ${money(benefValor)} em ${benefPrazo}\n`;
+        msg += `Cartão Benefício — Parcela: ${money(benefParcela)} que libera ${money(benefValor)} em ${benefPrazo}
+`;
       }
 
-      let temPort = false;
-      let temRefin = false;
+      let blocoPortabilidade = "";
+      let temPortabilidade = false;
 
       document.querySelectorAll('.linha-port').forEach(linha => {
         const parcela = parseBr(linha.querySelector('.portParcela').value);
@@ -576,10 +586,26 @@
         const libera = parseBr(linha.querySelector('.portLibera').value);
 
         if (parcela > 0 && libera > 0) {
-          temPort = true;
-          msg += `\n*Portabilidade + Refinanciamento* da parcela *${money(parcela)}* que estende para ${prazo} libera *${money(libera)}*\n`;
+          temPortabilidade = true;
+          blocoPortabilidade += `
+*Portabilidade + Refinanciamento* da parcela *${money(parcela)}* que estende para ${prazo} libera *${money(libera)}*
+`;
         }
       });
+
+      if (temPortabilidade) {
+        msg += blocoPortabilidade;
+        msg += `
+ℹ️ *Essa parcela da PORTABILIDADE já é descontada atualmente no benefício do cliente.*
+`;
+        msg += `*O valor da parcela continua o mesmo e apenas o prazo é estendido.*
+`;
+        msg += `*Por esse motivo, essa parcela não entra na soma de novas parcelas da simulação.*
+`;
+      }
+
+      let blocoRefinanciamento = "";
+      let temRefinanciamento = false;
 
       document.querySelectorAll('.linha-refin').forEach(linha => {
         const parcela = parseBr(linha.querySelector('.refinParcela').value);
@@ -587,24 +613,27 @@
         const libera = parseBr(linha.querySelector('.refinLibera').value);
 
         if (parcela > 0 && libera > 0) {
-          temRefin = true;
-          msg += `\n*Refinanciamento* da parcela *${money(parcela)}* que estende para ${prazo} libera *${money(libera)}*\n`;
+          temRefinanciamento = true;
+          blocoRefinanciamento += `
+*Refinanciamento* da parcela *${money(parcela)}* que estende para ${prazo} libera *${money(libera)}*
+`;
         }
       });
 
-      if (temPort) {
-        msg += `\nℹ️ *Essa parcela da PORTABILIDADE já é descontada atualmente no benefício do cliente.*\n`;
-        msg += `*O valor da parcela continua o mesmo e apenas o prazo é estendido.*\n`;
-        msg += `*Por esse motivo, essa parcela não entra na soma de novas parcelas da simulação.*\n`;
+      if (temRefinanciamento) {
+        msg += blocoRefinanciamento;
+        msg += `
+ℹ️ *Essa parcela do REFINANCIAMENTO já é descontada atualmente no benefício do cliente.*
+`;
+        msg += `*O valor da parcela continua o mesmo e apenas o prazo é estendido.*
+`;
+        msg += `*Por esse motivo, essa parcela não entra na soma de novas parcelas da simulação.*
+`;
       }
 
-      if (temRefin) {
-        msg += `\nℹ️ *Essa parcela do REFINANCIAMENTO já é descontada atualmente no benefício do cliente.*\n`;
-        msg += `*O valor da parcela continua o mesmo e apenas o prazo é estendido.*\n`;
-        msg += `*Por esse motivo, essa parcela não entra na soma de novas parcelas da simulação.*\n`;
-      }
-
-      msg += `\n*TOTAL LIBERADO : ${document.getElementById('totalLiberado').textContent}*\n`;
+      msg += `
+*TOTAL LIBERADO : ${document.getElementById('totalLiberado').textContent}*
+`;
       msg += `*TOTAL DE PARCELA: ${document.getElementById('totalParcela').textContent}*`;
 
       document.getElementById('resultado').value = msg;
