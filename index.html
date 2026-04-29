@@ -535,7 +535,7 @@
       const primeiraParcela = document.getElementById('primeiraParcela').value.trim();
 
       let msg = `🧾 SIMULAÇÃO\n\n`;
-      msg += `Cliente: ${cliente}\n`;
+      msg += `*Cliente: ${cliente}*\n`;
       msg += `CPF: ${cpf}\n`;
       msg += `Tipo de Benefício: ${beneficio}\n`;
       if (primeiraParcela) {
@@ -567,13 +567,17 @@
         msg += `Cartão Benefício — Parcela: ${money(benefParcela)} que libera ${money(benefValor)} em ${benefPrazo}\n`;
       }
 
+      let temPort = false;
+      let temRefin = false;
+
       document.querySelectorAll('.linha-port').forEach(linha => {
         const parcela = parseBr(linha.querySelector('.portParcela').value);
         const prazo = linha.querySelector('.portPrazo').value.trim();
         const libera = parseBr(linha.querySelector('.portLibera').value);
 
         if (parcela > 0 && libera > 0) {
-          msg += `\nPortabilidade + Refinanciamento da parcela ${money(parcela)} que estende para ${prazo} libera ${money(libera)}\n`;
+          temPort = true;
+          msg += `\n*Portabilidade + Refinanciamento* da parcela *${money(parcela)}* que estende para ${prazo} libera *${money(libera)}*\n`;
         }
       });
 
@@ -583,12 +587,25 @@
         const libera = parseBr(linha.querySelector('.refinLibera').value);
 
         if (parcela > 0 && libera > 0) {
-          msg += `\nRefinanciamento da parcela ${money(parcela)} que estende para ${prazo} libera ${money(libera)}\n`;
+          temRefin = true;
+          msg += `\n*Refinanciamento* da parcela *${money(parcela)}* que estende para ${prazo} libera *${money(libera)}*\n`;
         }
       });
 
-      msg += `\nTOTAL LIBERADO : ${document.getElementById('totalLiberado').textContent}\n`;
-      msg += `TOTAL DE PARCELA: ${document.getElementById('totalParcela').textContent}`;
+      if (temPort) {
+        msg += `\nℹ️ *Essa parcela da PORTABILIDADE já é descontada atualmente no benefício do cliente.*\n`;
+        msg += `*O valor da parcela continua o mesmo e apenas o prazo é estendido.*\n`;
+        msg += `*Por esse motivo, essa parcela não entra na soma de novas parcelas da simulação.*\n`;
+      }
+
+      if (temRefin) {
+        msg += `\nℹ️ *Essa parcela do REFINANCIAMENTO já é descontada atualmente no benefício do cliente.*\n`;
+        msg += `*O valor da parcela continua o mesmo e apenas o prazo é estendido.*\n`;
+        msg += `*Por esse motivo, essa parcela não entra na soma de novas parcelas da simulação.*\n`;
+      }
+
+      msg += `\n*TOTAL LIBERADO : ${document.getElementById('totalLiberado').textContent}*\n`;
+      msg += `*TOTAL DE PARCELA: ${document.getElementById('totalParcela').textContent}*`;
 
       document.getElementById('resultado').value = msg;
     }
