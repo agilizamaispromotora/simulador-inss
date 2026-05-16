@@ -697,7 +697,7 @@ const USUARIOS = {
 };
 
 // URL do Google Apps Script (preencher após configurar o Apps Script)
-const SHEETS_URL = 'COLE_AQUI_A_URL_DO_APPS_SCRIPT';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzBoehJY0KVIJtb8zUE4Nch_U1rXi9EtPcr9CrSMndfwqfFPGOdfsBoHZi1Fe_ILCOW/exec';
 
 let usuarioAtual = null;
 
@@ -753,7 +753,7 @@ function logout(){
 
 // ═══════════════════ ENVIAR PARA GOOGLE SHEETS ═══════════════════
 function enviarParaSheets(dados){
-  if(!SHEETS_URL || SHEETS_URL==='COLE_AQUI_A_URL_DO_APPS_SCRIPT') return;
+  if(!SHEETS_URL || SHEETS_URL==='https://script.google.com/macros/s/AKfycbzBoehJY0KVIJtb8zUE4Nch_U1rXi9EtPcr9CrSMndfwqfFPGOdfsBoHZi1Fe_ILCOW/exec') return;
   fetch(SHEETS_URL, {
     method:'POST',
     mode:'no-cors',
