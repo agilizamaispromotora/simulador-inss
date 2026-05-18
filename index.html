@@ -103,8 +103,8 @@ select{cursor:pointer}
 .b-ok{background:#d4edda;color:#1a6b36}
 .b-no{background:#fde8e8;color:#c0392b}
 
-/* LOGIN */
-.login-screen{position:fixed;inset:0;background:linear-gradient(135deg,var(--blue) 0%,var(--blue-mid) 60%,var(--blue-light) 100%);display:flex;align-items:center;justify-content:center;z-index:9999}
+/* LOGIN - oculto no simulador público */
+.login-screen{display:none !important}
 .login-box{background:#fff;border-radius:20px;padding:40px 36px;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(0,0,0,.25);text-align:center}
 .login-logo{height:70px;margin-bottom:20px}
 .login-title{font-family:'Sora',sans-serif;font-size:1.2rem;font-weight:800;color:var(--blue);margin-bottom:4px}
@@ -740,16 +740,15 @@ function logout(){
   document.getElementById('tab-btn-historico').style.display='none';
 }
 
-// Verifica sessão ao carregar
-(function(){
-  const saved = sessionStorage.getItem('acUser');
-  if(saved){ try{ usuarioAtual=JSON.parse(saved); aplicarLogin(); }catch(e){} }
-  // Copia logo para tela de login após carregamento
-  window.addEventListener('load',()=>{
-    const logoSrc = document.querySelector('.logo-img').src;
-    document.getElementById('login-logo-img').src = logoSrc;
-  });
-})();
+// SEM LOGIN - acesso direto
+usuarioAtual = { id:'user', nome:'Usuário', senha:'', role:'consultora', iniciais:'AC' };
+document.addEventListener('DOMContentLoaded', function(){
+  const loginScreen = document.getElementById('login-screen');
+  if(loginScreen) loginScreen.style.display='none';
+  // Esconde badge de usuário também
+  const badge = document.getElementById('user-badge');
+  if(badge) badge.style.display='none';
+});
 
 // ═══════════════════ ENVIAR PARA GOOGLE SHEETS ═══════════════════
 function enviarParaSheets(dados){
