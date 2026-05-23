@@ -939,6 +939,8 @@ function collectPortRefin(listId, tipo){
     if(tipo==='port'){
       lines.push(`*Portabilidade + Refinanciamento* da parcela *R$ ${pa}* que estende para ${pr} libera *R$ ${lib}*`);
       lines.push(`ℹ️ *Essa parcela já é descontada atualmente no benefício do cliente.*\n*O valor da parcela continua o mesmo e apenas o prazo é estendido.*\n*Por esse motivo, essa parcela não entra na soma de novas parcelas.*`);
+      // Libera entra no total liberado, mas parcela NÃO entra no total de parcelas
+      totalLib+=parseBR(lib);
     } else {
       lines.push(`Refinanciamento da parcela *R$ ${pa}* — estende para ${pr}x — libera *R$ ${lib}*`);
       totalLib+=parseBR(lib);
@@ -1181,6 +1183,11 @@ function calcTotais(conv){
   const mn_vl_el=document.getElementById(mnVl), mn_parc_el=document.getElementById(mnParc);
   let totalLib=parseBR(mn_vl_el?mn_vl_el.value:'');
   let totalParc=parseBR(mn_parc_el?mn_parc_el.value:'');
+  // Portabilidade — libera entra no total, parcela NÃO
+  document.querySelectorAll('#'+portList+' .pitem').forEach(item=>{
+    totalLib+=parseBR(item.querySelector('.pr-libera').value);
+  });
+  // Refinanciamento — libera e parcela entram no total
   document.querySelectorAll('#'+refinList+' .pitem').forEach(item=>{
     totalLib+=parseBR(item.querySelector('.pr-libera').value);
     totalParc+=parseBR(item.querySelector('.pr-parcela-atual').value);
