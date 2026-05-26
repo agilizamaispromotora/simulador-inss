@@ -362,8 +362,8 @@ select{cursor:pointer}
     <div class="card-body">
       <div class="fg">
         <div class="fgi"><label>Banco</label><input type="text" id="pr-cart-banco" placeholder="Ex: BMG"></div>
-        <div class="fgi"><label>Prazo</label><input type="number" id="pr-cart-prazo" placeholder="Ex: 120" max="120"></div>
         <div class="fgi"><label>Parcela (R$)</label><input type="text" id="pr-cart-parcela" placeholder="Ex: 56,73"></div>
+        <div class="fgi"><label>Prazo</label><input type="number" id="pr-cart-prazo" placeholder="Ex: 120" max="120"></div>
         <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="pr-cart-vl-direto" placeholder="Ex: 1.814,94"></div>
       </div>
       <input type="hidden" id="pr-cart-margem">
@@ -515,8 +515,8 @@ select{cursor:pointer}
     <div class="card-body">
       <div class="fg">
         <div class="fgi"><label>Banco</label><input type="text" id="pref-cart-banco" placeholder="Ex: BMG"></div>
-        <div class="fgi"><label>Prazo</label><input type="number" id="pref-cart-prazo" placeholder="Ex: 120" max="120"></div>
         <div class="fgi"><label>Parcela (R$)</label><input type="text" id="pref-cart-parcela" placeholder="Ex: 56,73"></div>
+        <div class="fgi"><label>Prazo</label><input type="number" id="pref-cart-prazo" placeholder="Ex: 120" max="120"></div>
         <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="pref-cart-vl-direto" placeholder="Ex: 1.814,94"></div>
       </div>
       <input type="hidden" id="pref-cart-margem">
@@ -992,14 +992,14 @@ function buildGovPR(){
   if(p1) msg+=`Primeira parcela para: ${p1}\n`;
   if(banco||vl) msg+=`\nMargem Nova — Parcela: R$ ${parc} que libera R$ ${vl} em ${prazo}x\n`;
   if(cartMargem&&cartSaque){
-    const parc70=parseBR(cartMargem);
     const vlLib=parseBR(cartSaque);
+    const parc=parseBR(document.getElementById('pr-cart-parcela').value);
     const cartPrazo=document.getElementById('pr-cart-prazo').value||'120';
     const cartBanco=document.getElementById('pr-cart-banco').value;
-    if(parc70>0||vlLib>0){
-      msg+=`\nCartão Benefício${cartBanco?' — '+cartBanco:''} — Parcela: R$ ${fmtBR(parc70)} em ${cartPrazo}x que libera R$ ${fmtBR(vlLib)}\n`;
+    if(vlLib>0){
+      msg+=`\nCartão Benefício${cartBanco?' — '+cartBanco:''} — Parcela: R$ ${fmtBR(parc)} que libera R$ ${fmtBR(vlLib)} em ${cartPrazo}x\n`;
       totalLib+=vlLib;
-      totalParc+=parc70;
+      totalParc+=parc;
     }
   }
   if(port.lines.length){ msg+=`\n${port.lines.join('\n\n')}\n`; }
@@ -1035,14 +1035,14 @@ function buildPrefeitura(){
   if(p1) msg+=`Primeira parcela para: ${p1}\n`;
   if(banco||vl) msg+=`\nMargem Nova — Parcela: R$ ${parc} que libera R$ ${vl} em ${prazo}x\n`;
   if(cartParcela||cartVlDireto){
-    const parc70=parseBR(cartParcela);
     const vlLib=parseBR(cartVlDireto);
+    const parc=parseBR(cartParcela);
     const cartPrazo=document.getElementById('pref-cart-prazo').value||'120';
     const cartBanco=document.getElementById('pref-cart-banco').value;
-    if(parc70>0||vlLib>0){
-      msg+=`\nCartão Benefício${cartBanco?' — '+cartBanco:''} — Parcela: R$ ${fmtBR(parc70)} em ${cartPrazo}x que libera R$ ${fmtBR(vlLib)}\n`;
+    if(vlLib>0){
+      msg+=`\nCartão Benefício${cartBanco?' — '+cartBanco:''} — Parcela: R$ ${fmtBR(parc)} que libera R$ ${fmtBR(vlLib)} em ${cartPrazo}x\n`;
       totalLib+=vlLib;
-      totalParc+=parc70;
+      totalParc+=parc;
     }
   }
   if(port.lines.length){ msg+=`\n${port.lines.join('\n\n')}\n`; }
