@@ -351,13 +351,8 @@ select{cursor:pointer}
       <div class="fg">
         <div class="fgi"><label>Banco</label><input type="text" id="pr-mn-banco" placeholder="Ex: BANRISUL"></div>
         <div class="fgi"><label>Prazo</label><input type="number" id="pr-mn-prazo" placeholder="Máx: 120" max="120"></div>
-        <div class="fgi"><label>Coeficiente</label><input type="text" id="pr-mn-coef" placeholder="Ex: 0,020500"></div>
         <div class="fgi"><label>Parcela (R$)</label><input type="text" id="pr-mn-parcela" placeholder="Ex: 200,00"></div>
-        <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="pr-mn-vl" placeholder="Calculado auto"></div>
-      </div>
-      <div class="btn-grp" style="margin-top:12px">
-        <button class="btn btn-out btn-sm" onclick="calcVL('pr-mn-parcela','pr-mn-coef','pr-mn-vl')">→ Calc. Valor Liberado</button>
-        <button class="btn btn-out btn-sm" onclick="calcParc('pr-mn-vl','pr-mn-coef','pr-mn-parcela')">→ Calc. Parcela</button>
+        <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="pr-mn-vl" placeholder="Ex: 9.500,00"></div>
       </div>
     </div>
   </div>
@@ -365,21 +360,22 @@ select{cursor:pointer}
   <div class="card">
     <div class="card-hdr"><div class="ca"></div><h2>Cartão Benefício — Margem 5%</h2></div>
     <div class="card-body">
-      <div class="alert a-info">💳 <strong>Como funciona:</strong> A margem do cartão é de 5% do benefício. O banco libera um valor total pelo coeficiente, mas o cliente <strong>paga apenas 70%</strong> dessa parcela mensalmente — os outros 30% ficam disponíveis como crédito rotativo no cartão. O cliente também <strong>saca apenas 70%</strong> do valor total liberado.</div>
+      <div class="alert a-info">💳 O cliente paga <strong>70%</strong> da parcela — os 30% restantes ficam como crédito rotativo no cartão.</div>
       <div class="fg" style="margin-top:14px">
         <div class="fgi"><label>Banco do Cartão</label><input type="text" id="pr-cart-banco" placeholder="Ex: BMG"></div>
-        <div class="fgi"><label>Margem Disponível (R$)</label><input type="text" id="pr-cart-margem" placeholder="Ex: 150,00" oninput="calcCartaoAuto('pr')"></div>
         <div class="fgi"><label>Prazo</label><input type="number" id="pr-cart-prazo" placeholder="Ex: 120" max="120"></div>
-        <div class="fgi"><label>Coeficiente</label><input type="text" id="pr-cart-coef" placeholder="Ex: 0,031260" oninput="calcCartaoAuto('pr')"></div>
-        <div class="fgi"><label>Parcela Total (R$)</label><input type="text" id="pr-cart-parcela" placeholder="Calculado auto" readonly style="background:#e8f0fe;font-weight:700"></div>
+        <div class="fgi"><label>Parcela que o cliente paga (70%) (R$)</label><input type="text" id="pr-cart-parcela" placeholder="Ex: 56,73" oninput="calcCartaoSimples('pr')"></div>
+        <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="pr-cart-vl-direto" placeholder="Ex: 1.814,94"></div>
       </div>
-      <button class="btn btn-out btn-sm" style="margin-top:10px" onclick="calcCartaoAuto('pr')">⚡ Calcular Cartão</button>
+      <!-- Mantidos para compatibilidade com o buildGovPR mas ocultos -->
+      <input type="hidden" id="pr-cart-margem">
+      <input type="hidden" id="pr-cart-coef">
       <div id="pr-cart-result" style="display:none" class="res-box">
-        <div class="res-row"><span class="res-lbl">Parcela Total (100%)</span><span class="res-val" id="pr-cart-parcela-total">—</span></div>
-        <div class="res-row"><span class="res-lbl">💳 Parcela que o Cliente Paga (70%)</span><span class="res-val or" id="pr-cart-paga">—</span></div>
-        <div class="res-row"><span class="res-lbl">Crédito Rotativo Cartão (30%)</span><span class="res-val" id="pr-cart-cred">—</span></div>
-        <div class="res-row"><span class="res-lbl">Valor Total Liberado</span><span class="res-val" id="pr-cart-lib-total">—</span></div>
-        <div class="res-row"><span class="res-lbl">💰 Valor que o Cliente Saca (70%)</span><span class="res-val or" id="pr-cart-lib">—</span></div>
+        <div class="res-row"><span class="res-lbl">💰 Valor que o Cliente Saca</span><span class="res-val or" id="pr-cart-lib">—</span></div>
+        <div class="res-row"><span class="res-lbl">💳 Parcela que o Cliente Paga</span><span class="res-val" id="pr-cart-paga">—</span></div>
+        <span id="pr-cart-parcela-total" style="display:none"></span>
+        <span id="pr-cart-cred" style="display:none"></span>
+        <span id="pr-cart-lib-total" style="display:none"></span>
       </div>
     </div>
   </div>
@@ -444,13 +440,8 @@ select{cursor:pointer}
       <div class="fg">
         <div class="fgi"><label>Banco</label><input type="text" id="si-mn-banco" placeholder="Ex: CAIXA"></div>
         <div class="fgi"><label>Prazo</label><input type="number" id="si-mn-prazo" placeholder="Máx: 120" max="120"></div>
-        <div class="fgi"><label>Coeficiente</label><input type="text" id="si-mn-coef" placeholder="Ex: 0,019800"></div>
         <div class="fgi"><label>Parcela (R$)</label><input type="text" id="si-mn-parcela" placeholder="Ex: 250,00"></div>
-        <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="si-mn-vl" placeholder="Calculado auto"></div>
-      </div>
-      <div class="btn-grp" style="margin-top:12px">
-        <button class="btn btn-out btn-sm" onclick="calcVL('si-mn-parcela','si-mn-coef','si-mn-vl')">→ Calc. Valor Liberado</button>
-        <button class="btn btn-out btn-sm" onclick="calcParc('si-mn-vl','si-mn-coef','si-mn-parcela')">→ Calc. Parcela</button>
+        <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="si-mn-vl" placeholder="Ex: 12.000,00"></div>
       </div>
     </div>
   </div>
@@ -516,13 +507,8 @@ select{cursor:pointer}
       <div class="fg">
         <div class="fgi"><label>Banco</label><input type="text" id="pref-mn-banco" placeholder="Ex: BANRISUL"></div>
         <div class="fgi"><label>Prazo</label><input type="number" id="pref-mn-prazo" placeholder="Máx: 120" max="120"></div>
-        <div class="fgi"><label>Coeficiente</label><input type="text" id="pref-mn-coef" placeholder="Ex: 0,020500"></div>
         <div class="fgi"><label>Parcela (R$)</label><input type="text" id="pref-mn-parcela" placeholder="Ex: 200,00"></div>
-        <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="pref-mn-vl" placeholder="Calculado auto"></div>
-      </div>
-      <div class="btn-grp" style="margin-top:12px">
-        <button class="btn btn-out btn-sm" onclick="calcVL('pref-mn-parcela','pref-mn-coef','pref-mn-vl')">→ Calc. Valor Liberado</button>
-        <button class="btn btn-out btn-sm" onclick="calcParc('pref-mn-vl','pref-mn-coef','pref-mn-parcela')">→ Calc. Parcela</button>
+        <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="pref-mn-vl" placeholder="Ex: 9.500,00"></div>
       </div>
     </div>
   </div>
@@ -530,22 +516,21 @@ select{cursor:pointer}
   <div class="card">
     <div class="card-hdr"><div class="ca"></div><h2>Cartão Benefício — Margem 5%</h2></div>
     <div class="card-body">
-      <div class="alert a-info">💳 <strong>Como funciona:</strong> A margem do cartão é de 5% do benefício. O banco libera um valor total pelo coeficiente, mas o cliente <strong>paga apenas 70%</strong> dessa parcela mensalmente — os outros 30% ficam disponíveis como crédito rotativo no cartão. O cliente também <strong>saca apenas 70%</strong> do valor total liberado.</div>
+      <div class="alert a-info">💳 O cliente paga <strong>70%</strong> da parcela — os 30% restantes ficam como crédito rotativo no cartão.</div>
       <div class="fg" style="margin-top:14px">
         <div class="fgi"><label>Banco do Cartão</label><input type="text" id="pref-cart-banco" placeholder="Ex: BMG"></div>
-        <div class="fgi"><label>Margem Disponível (R$)</label><input type="text" id="pref-cart-margem" placeholder="Ex: 150,00" oninput="calcCartaoAuto('pref')"></div>
         <div class="fgi"><label>Prazo</label><input type="number" id="pref-cart-prazo" placeholder="Ex: 120" max="120"></div>
-        <div class="fgi"><label>Coeficiente</label><input type="text" id="pref-cart-coef" placeholder="Ex: 0,031260" oninput="calcCartaoAuto('pref')"></div>
-        <div class="fgi"><label>Parcela Total (R$)</label><input type="text" id="pref-cart-parcela" placeholder="Calculado auto" readonly style="background:#e8f0fe;font-weight:700"></div>
-        <div class="fgi"><label>Parcela Total (R$)</label><input type="text" id="pref-cart-parcela" placeholder="Calculado auto" readonly style="background:#e8f0fe;font-weight:700"></div>
+        <div class="fgi"><label>Parcela que o cliente paga (70%) (R$)</label><input type="text" id="pref-cart-parcela" placeholder="Ex: 56,73" oninput="calcCartaoSimples('pref')"></div>
+        <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="pref-cart-vl-direto" placeholder="Ex: 1.814,94"></div>
       </div>
-      <button class="btn btn-out btn-sm" style="margin-top:10px" onclick="calcCartaoAuto('pref')">⚡ Calcular Cartão</button>
+      <input type="hidden" id="pref-cart-margem">
+      <input type="hidden" id="pref-cart-coef">
       <div id="pref-cart-result" style="display:none" class="res-box">
-        <div class="res-row"><span class="res-lbl">Parcela Total (100%)</span><span class="res-val" id="pref-cart-parcela-total">—</span></div>
-        <div class="res-row"><span class="res-lbl">💳 Parcela que o Cliente Paga (70%)</span><span class="res-val or" id="pref-cart-paga">—</span></div>
-        <div class="res-row"><span class="res-lbl">Crédito Rotativo Cartão (30%)</span><span class="res-val" id="pref-cart-cred">—</span></div>
-        <div class="res-row"><span class="res-lbl">Valor Total Liberado</span><span class="res-val" id="pref-cart-lib-total">—</span></div>
-        <div class="res-row"><span class="res-lbl">💰 Valor que o Cliente Saca (70%)</span><span class="res-val or" id="pref-cart-lib">—</span></div>
+        <div class="res-row"><span class="res-lbl">💰 Valor que o Cliente Saca</span><span class="res-val or" id="pref-cart-lib">—</span></div>
+        <div class="res-row"><span class="res-lbl">💳 Parcela que o Cliente Paga</span><span class="res-val" id="pref-cart-paga">—</span></div>
+        <span id="pref-cart-parcela-total" style="display:none"></span>
+        <span id="pref-cart-cred" style="display:none"></span>
+        <span id="pref-cart-lib-total" style="display:none"></span>
       </div>
     </div>
   </div>
@@ -828,8 +813,15 @@ function calcParc(vlId, coefId, parcId){
   if(vl&&coef){ document.getElementById(parcId).value=fmtBR(vl*coef); }
   else alert('Preencha Valor Liberado e Coeficiente para calcular a Parcela.');
 }
+function calcCartaoSimples(pref){
+  const parc=parseBR(document.getElementById(pref+'-cart-parcela').value);
+  const vl=parseBR(document.getElementById(pref+'-cart-vl-direto').value);
+  if(!parc&&!vl) return;
+  document.getElementById(pref+'-cart-paga').textContent='R$ '+fmtBR(parc);
+  document.getElementById(pref+'-cart-lib').textContent='R$ '+fmtBR(vl||0);
+  document.getElementById(pref+'-cart-result').style.display='block';
+}
 function calcCartaoAuto(pref){
-  const margem=parseBR(document.getElementById(pref+'-cart-margem').value);
   const coef=parseBR(document.getElementById(pref+'-cart-coef').value);
   if(!margem||!coef){ return; }
   // margem = parcela total (100%)
@@ -995,8 +987,8 @@ function buildGovPR(){
   let totalLib=parseBR(vl)+refin.totalLib;
   let totalParc=parseBR(parc)+refin.totalParc;
   // cartão
-  const cartMargem=document.getElementById('pr-cart-margem').value;
-  const cartSaque=document.getElementById('pr-cart-lib').textContent;
+  const cartMargem=document.getElementById('pr-cart-parcela').value;
+  const cartSaque=document.getElementById('pr-cart-vl-direto')?.value||document.getElementById('pr-cart-lib').textContent;
   let msg=`📱 SIMULAÇÃO — GOVERNO DO ESTADO — ${estado}\n\n`;
   msg+=`*Cliente: ${nome}*\n`;
   if(cpf) msg+=`CPF: ${cpf}\n`;
@@ -1004,14 +996,16 @@ function buildGovPR(){
   msg+=`Tipo: ${tipo}\n`;
   if(p1) msg+=`Primeira parcela para: ${p1}\n`;
   if(banco||vl) msg+=`\nMargem Nova — Parcela: R$ ${parc} que libera R$ ${vl} em ${prazo}x\n`;
-  if(cartMargem&&cartSaque&&cartSaque!=='—'){
-    const parc70=parseBR(document.getElementById('pr-cart-parcela').value);
-    const vlLib=parseBR(document.getElementById('pr-cart-lib').textContent.replace('R$ ',''));
+  if(cartMargem&&cartSaque){
+    const parc70=parseBR(cartMargem);
+    const vlLib=parseBR(cartSaque);
     const cartPrazo=document.getElementById('pr-cart-prazo').value||'120';
     const cartBanco=document.getElementById('pr-cart-banco').value;
-    msg+=`\nCartão Benefício${cartBanco?' — '+cartBanco:''} — Parcela: R$ ${fmtBR(parc70)} em ${cartPrazo}x que libera R$ ${fmtBR(vlLib)}\n`;
-    totalLib+=vlLib;
-    totalParc+=parc70;
+    if(parc70>0||vlLib>0){
+      msg+=`\nCartão Benefício${cartBanco?' — '+cartBanco:''} — Parcela: R$ ${fmtBR(parc70)} em ${cartPrazo}x que libera R$ ${fmtBR(vlLib)}\n`;
+      totalLib+=vlLib;
+      totalParc+=parc70;
+    }
   }
   if(port.lines.length){ msg+=`\n${port.lines.join('\n\n')}\n`; }
   if(refin.lines.length){ msg+=`\n${refin.lines.join('\n')}\n`; }
@@ -1035,10 +1029,8 @@ function buildPrefeitura(){
   const refin=collectPortRefin('pref-refin-list','refin');
   let totalLib=parseBR(vl)+refin.totalLib;
   let totalParc=parseBR(parc)+refin.totalParc;
-  const cartMargem=document.getElementById('pref-cart-margem').value;
-  const cartPaga=document.getElementById('pref-cart-paga').textContent;
-  const cartCred=document.getElementById('pref-cart-cred').textContent;
-  const cartSaque=document.getElementById('pref-cart-lib').textContent;
+  const cartParcela=document.getElementById('pref-cart-parcela').value;
+  const cartVlDireto=document.getElementById('pref-cart-vl-direto')?.value||'';
   let msg=`📱 SIMULAÇÃO — PREFEITURA${municipio?' DE '+municipio.toUpperCase():''}\n\n`;
   msg+=`*Cliente: ${nome}*\n`;
   if(cpf) msg+=`CPF: ${cpf}\n`;
@@ -1047,14 +1039,16 @@ function buildPrefeitura(){
   if(municipio) msg+=`Município: ${municipio}\n`;
   if(p1) msg+=`Primeira parcela para: ${p1}\n`;
   if(banco||vl) msg+=`\nMargem Nova — Parcela: R$ ${parc} que libera R$ ${vl} em ${prazo}x\n`;
-  if(cartMargem&&cartSaque&&cartSaque!=='—'){
-    const parc70=parseBR(document.getElementById('pref-cart-parcela').value);
-    const vlLib=parseBR(document.getElementById('pref-cart-lib').textContent.replace('R$ ',''));
+  if(cartParcela||cartVlDireto){
+    const parc70=parseBR(cartParcela);
+    const vlLib=parseBR(cartVlDireto);
     const cartPrazo=document.getElementById('pref-cart-prazo').value||'120';
     const cartBanco=document.getElementById('pref-cart-banco').value;
-    msg+=`\nCartão Benefício${cartBanco?' — '+cartBanco:''} — Parcela: R$ ${fmtBR(parc70)} em ${cartPrazo}x que libera R$ ${fmtBR(vlLib)}\n`;
-    totalLib+=vlLib;
-    totalParc+=parc70;
+    if(parc70>0||vlLib>0){
+      msg+=`\nCartão Benefício${cartBanco?' — '+cartBanco:''} — Parcela: R$ ${fmtBR(parc70)} em ${cartPrazo}x que libera R$ ${fmtBR(vlLib)}\n`;
+      totalLib+=vlLib;
+      totalParc+=parc70;
+    }
   }
   if(port.lines.length){ msg+=`\n${port.lines.join('\n\n')}\n`; }
   if(refin.lines.length){ msg+=`\n${refin.lines.join('\n')}\n`; }
