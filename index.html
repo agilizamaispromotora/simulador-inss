@@ -358,25 +358,22 @@ select{cursor:pointer}
   </div>
 
   <div class="card">
-    <div class="card-hdr"><div class="ca"></div><h2>Cartão Benefício — Margem 5%</h2></div>
+    <div class="card-hdr"><div class="ca"></div><h2>Cartão Benefício</h2></div>
     <div class="card-body">
-      <div class="alert a-info">💳 O cliente paga <strong>70%</strong> da parcela — os 30% restantes ficam como crédito rotativo no cartão.</div>
-      <div class="fg" style="margin-top:14px">
-        <div class="fgi"><label>Banco do Cartão</label><input type="text" id="pr-cart-banco" placeholder="Ex: BMG"></div>
+      <div class="fg">
+        <div class="fgi"><label>Banco</label><input type="text" id="pr-cart-banco" placeholder="Ex: BMG"></div>
         <div class="fgi"><label>Prazo</label><input type="number" id="pr-cart-prazo" placeholder="Ex: 120" max="120"></div>
-        <div class="fgi"><label>Parcela que o cliente paga (70%) (R$)</label><input type="text" id="pr-cart-parcela" placeholder="Ex: 56,73" oninput="calcCartaoSimples('pr')"></div>
+        <div class="fgi"><label>Parcela (R$)</label><input type="text" id="pr-cart-parcela" placeholder="Ex: 56,73"></div>
         <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="pr-cart-vl-direto" placeholder="Ex: 1.814,94"></div>
       </div>
-      <!-- Mantidos para compatibilidade com o buildGovPR mas ocultos -->
       <input type="hidden" id="pr-cart-margem">
       <input type="hidden" id="pr-cart-coef">
-      <div id="pr-cart-result" style="display:none" class="res-box">
-        <div class="res-row"><span class="res-lbl">💰 Valor que o Cliente Saca</span><span class="res-val or" id="pr-cart-lib">—</span></div>
-        <div class="res-row"><span class="res-lbl">💳 Parcela que o Cliente Paga</span><span class="res-val" id="pr-cart-paga">—</span></div>
-        <span id="pr-cart-parcela-total" style="display:none"></span>
-        <span id="pr-cart-cred" style="display:none"></span>
-        <span id="pr-cart-lib-total" style="display:none"></span>
-      </div>
+      <span id="pr-cart-result" style="display:none"></span>
+      <span id="pr-cart-lib" style="display:none"></span>
+      <span id="pr-cart-paga" style="display:none"></span>
+      <span id="pr-cart-parcela-total" style="display:none"></span>
+      <span id="pr-cart-cred" style="display:none"></span>
+      <span id="pr-cart-lib-total" style="display:none"></span>
     </div>
   </div>
 
@@ -514,24 +511,22 @@ select{cursor:pointer}
   </div>
 
   <div class="card">
-    <div class="card-hdr"><div class="ca"></div><h2>Cartão Benefício — Margem 5%</h2></div>
+    <div class="card-hdr"><div class="ca"></div><h2>Cartão Benefício</h2></div>
     <div class="card-body">
-      <div class="alert a-info">💳 O cliente paga <strong>70%</strong> da parcela — os 30% restantes ficam como crédito rotativo no cartão.</div>
-      <div class="fg" style="margin-top:14px">
-        <div class="fgi"><label>Banco do Cartão</label><input type="text" id="pref-cart-banco" placeholder="Ex: BMG"></div>
+      <div class="fg">
+        <div class="fgi"><label>Banco</label><input type="text" id="pref-cart-banco" placeholder="Ex: BMG"></div>
         <div class="fgi"><label>Prazo</label><input type="number" id="pref-cart-prazo" placeholder="Ex: 120" max="120"></div>
-        <div class="fgi"><label>Parcela que o cliente paga (70%) (R$)</label><input type="text" id="pref-cart-parcela" placeholder="Ex: 56,73" oninput="calcCartaoSimples('pref')"></div>
+        <div class="fgi"><label>Parcela (R$)</label><input type="text" id="pref-cart-parcela" placeholder="Ex: 56,73"></div>
         <div class="fgi"><label>Valor Liberado (R$)</label><input type="text" id="pref-cart-vl-direto" placeholder="Ex: 1.814,94"></div>
       </div>
       <input type="hidden" id="pref-cart-margem">
       <input type="hidden" id="pref-cart-coef">
-      <div id="pref-cart-result" style="display:none" class="res-box">
-        <div class="res-row"><span class="res-lbl">💰 Valor que o Cliente Saca</span><span class="res-val or" id="pref-cart-lib">—</span></div>
-        <div class="res-row"><span class="res-lbl">💳 Parcela que o Cliente Paga</span><span class="res-val" id="pref-cart-paga">—</span></div>
-        <span id="pref-cart-parcela-total" style="display:none"></span>
-        <span id="pref-cart-cred" style="display:none"></span>
-        <span id="pref-cart-lib-total" style="display:none"></span>
-      </div>
+      <span id="pref-cart-result" style="display:none"></span>
+      <span id="pref-cart-lib" style="display:none"></span>
+      <span id="pref-cart-paga" style="display:none"></span>
+      <span id="pref-cart-parcela-total" style="display:none"></span>
+      <span id="pref-cart-cred" style="display:none"></span>
+      <span id="pref-cart-lib-total" style="display:none"></span>
     </div>
   </div>
 
@@ -1088,14 +1083,13 @@ function buildCLT(){
   const nome=document.getElementById('clt-nome').value;
   const tel=document.getElementById('clt-tel').value;
   const nasc=document.getElementById('clt-nasc').value;
-  const emp=document.getElementById('clt-empresa').value;
   if(!nome){ alert('Preencha o nome do cliente.'); return null; }
   const bancos=document.querySelectorAll('#clt-banco-list .banco-item');
   let msg=`📱 SIMULAÇÃO — CLT (CRÉDITO COM CARTEIRA ASSINADA)\n\n`;
   msg+=`*Cliente: ${nome}*\n`;
   if(tel) msg+=`Telefone: ${tel}\n`;
   if(nasc) msg+=`Data de Nascimento: ${nasc}\n`;
-  if(emp) msg+=`Empresa: ${emp}\n\n`;
+  msg+=`\n`;
   if(bancos.length===0){ msg+=`Nenhum banco adicionado.\n`; }
   else {
     bancos.forEach(b=>{
