@@ -952,6 +952,7 @@ function buildINSS(){
   const refin=collectPortRefin('inss-refin-list','refin');
   let totalLib=parseBR(vl)+port.totalLib+refin.totalLib;
   let totalParc=parseBR(parc)+refin.totalParc;
+  let msg=`📱 SIMULAÇÃO\n\n`;
   msg+=`*Cliente: ${nome}*\n`;
   if(cpf) msg+=`CPF: ${cpf}\n`;
   if(tel) msg+=`Telefone: ${tel}\n`;
