@@ -950,9 +950,8 @@ function buildINSS(){
   if(!nome){ alert('Preencha o nome do cliente.'); return null; }
   const port=collectPortRefin('inss-port-list','port');
   const refin=collectPortRefin('inss-refin-list','refin');
-  let totalLib=parseBR(vl)+refin.totalLib;
+  let totalLib=parseBR(vl)+port.totalLib+refin.totalLib;
   let totalParc=parseBR(parc)+refin.totalParc;
-  let msg=`📱 SIMULAÇÃO\n\n`;
   msg+=`*Cliente: ${nome}*\n`;
   if(cpf) msg+=`CPF: ${cpf}\n`;
   if(tel) msg+=`Telefone: ${tel}\n`;
@@ -979,7 +978,7 @@ function buildGovPR(){
   if(!nome){ alert('Preencha o nome do cliente.'); return null; }
   const port=collectPortRefin('pr-port-list','port');
   const refin=collectPortRefin('pr-refin-list','refin');
-  let totalLib=parseBR(vl)+refin.totalLib;
+  let totalLib=parseBR(vl)+port.totalLib+refin.totalLib;
   let totalParc=parseBR(parc)+refin.totalParc;
   // cartão
   const cartMargem=document.getElementById('pr-cart-parcela').value;
@@ -1022,7 +1021,7 @@ function buildPrefeitura(){
   if(!nome){ alert('Preencha o nome do cliente.'); return null; }
   const port=collectPortRefin('pref-port-list','port');
   const refin=collectPortRefin('pref-refin-list','refin');
-  let totalLib=parseBR(vl)+refin.totalLib;
+  let totalLib=parseBR(vl)+port.totalLib+refin.totalLib;
   let totalParc=parseBR(parc)+refin.totalParc;
   const cartParcela=document.getElementById('pref-cart-parcela').value;
   const cartVlDireto=document.getElementById('pref-cart-vl-direto')?.value||'';
@@ -1064,7 +1063,7 @@ function buildSIAPE(){
   if(!nome){ alert('Preencha o nome do cliente.'); return null; }
   const port=collectPortRefin('si-port-list','port');
   const refin=collectPortRefin('si-refin-list','refin');
-  let totalLib=parseBR(vl)+refin.totalLib;
+  let totalLib=parseBR(vl)+port.totalLib+refin.totalLib;
   let totalParc=parseBR(parc)+refin.totalParc;
   let msg=`📱 SIMULAÇÃO — SIAPE (SERVIDOR FEDERAL)\n\n`;
   msg+=`*Cliente: ${nome}*\n`;
