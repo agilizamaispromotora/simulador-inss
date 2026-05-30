@@ -891,19 +891,23 @@ function addFgtsAno(){
 
 // ═══════════════════ GERAR MSG ═══════════════════
 function gerar(conv){
-  const msgId=conv+'-msg', cardId=conv+'-msg-card';
-  const msg=buildMsg(conv);
-  if(!msg) return;
-  document.getElementById(msgId).textContent=msg;
-  const prefMap={inss:'inss',govpr:'pr',siape:'si',prefeitura:'pref'};
-  const pref=prefMap[conv];
-  if(pref){
-    calcTotais(conv);
-    const totEl=document.getElementById(pref+'-totais');
-    if(totEl) totEl.style.display='flex';
+  try{
+    const msgId=conv+'-msg', cardId=conv+'-msg-card';
+    const msg=buildMsg(conv);
+    if(!msg) return;
+    document.getElementById(msgId).textContent=msg;
+    const prefMap={inss:'inss',govpr:'pr',siape:'si',prefeitura:'pref'};
+    const pref=prefMap[conv];
+    if(pref){
+      calcTotais(conv);
+      const totEl=document.getElementById(pref+'-totais');
+      if(totEl) totEl.style.display='flex';
+    }
+    document.getElementById(cardId).style.display='block';
+    document.getElementById(cardId).scrollIntoView({behavior:'smooth',block:'start'});
+  }catch(e){
+    alert('Erro ao gerar: '+e.message);
   }
-  document.getElementById(cardId).style.display='block';
-  document.getElementById(cardId).scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function buildMsg(conv){
